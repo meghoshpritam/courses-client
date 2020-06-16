@@ -1,0 +1,17 @@
+.app {
+  header {
+    position: fixed;
+    margin: 0;
+    padding: 0;
+    top: 0;
+    z-index: 20;
+  }
+
+  .main {
+    margin-top: 64px;
+
+    .mainContent {
+      min-height: calc(100vh - 64px - 81px);
+    }
+  }
+}

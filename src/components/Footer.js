@@ -31,10 +31,10 @@ export default function Footer() {
           </Typography>
         </div>
         <Typography variant="body2" color="textSecondary" align="center">
-          Design & Developed by
+          Design & Developed by{' '}
           <Link color="inherit" href="https://meghoshpritam.netlify.app/" target="_blank">
             meghoshpritam
-          </Link>{' '}
+          </Link>
         </Typography>
       </footer>
     </>
