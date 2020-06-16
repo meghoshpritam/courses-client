@@ -14,6 +14,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import List from '@material-ui/core/List';
+import Link from '@material-ui/core/Link';
 import { useHistory, useLocation } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
@@ -61,7 +62,7 @@ export default function MenuAppBar() {
   return (
     <>
       <div className={classes.root}>
-        <AppBar position="fixed">
+        <AppBar position="relative">
           <Toolbar>
             <IconButton
               edge="start"
@@ -73,7 +74,9 @@ export default function MenuAppBar() {
               <MenuIcon />
             </IconButton>
             <Typography variant="h6" className={classes.title}>
-              Photos
+              <Link color="inherit" underline="none" href="/">
+                Courses
+              </Link>
             </Typography>
 
             <div>
