@@ -10,6 +10,7 @@ import NotFound from './pages/NotFound';
 import UnAuthorized from './pages/UnAuthorized';
 import Footer from './components/Footer';
 import Course from './pages/Course';
+import MyProfile from './pages/MyProfile';
 
 function App() {
   return (
@@ -34,6 +35,9 @@ function App() {
                 </Route>
                 <Route path="/course/:id">
                   <Course />
+                </Route>
+                <Route path="/my-profile">
+                  <MyProfile />
                 </Route>
                 <Route path="/unauthorized">
                   <UnAuthorized />

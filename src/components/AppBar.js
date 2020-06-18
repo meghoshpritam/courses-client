@@ -145,6 +145,16 @@ export default function MenuAppBar() {
               </ListItemIcon>
               <ListItemText primary="Sign Up" />
             </ListItem>
+            <ListItem
+              button
+              onClick={() => history.push('/my-profile')}
+              selected={location.pathname === '/my-profile'}
+            >
+              <ListItemIcon>
+                <InboxIcon />
+              </ListItemIcon>
+              <ListItemText primary="My Profile" />
+            </ListItem>
           </List>
         </div>
       </Drawer>
