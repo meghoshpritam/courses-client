@@ -9,6 +9,7 @@ import SignUp from './pages/SignUp';
 import NotFound from './pages/NotFound';
 import UnAuthorized from './pages/UnAuthorized';
 import Footer from './components/Footer';
+import Course from './pages/Course';
 
 function App() {
   return (
@@ -30,6 +31,9 @@ function App() {
                 </Route>
                 <Route path="/sign-up">
                   <SignUp />
+                </Route>
+                <Route path="/course/:id">
+                  <Course />
                 </Route>
                 <Route path="/unauthorized">
                   <UnAuthorized />
