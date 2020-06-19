@@ -11,7 +11,7 @@ import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import AddIcon from '@material-ui/icons/Add';
 import RemoveIcon from '@material-ui/icons/Remove';
-import PlayCircleFilledIcon from '@material-ui/icons/PlayCircleFilled';
+// import PlayCircleFilledIcon from '@material-ui/icons/PlayCircleFilled';
 import Link from '@material-ui/core/Link';
 import Collapse from '@material-ui/core/Collapse';
 import ContentListItem from '../components/ContentListItem';
@@ -39,12 +39,12 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default () => {
-  const { id } = useParams();
+  // const { id } = useParams();
   const classes = useStyles();
 
   const arr = [0, 1, 2, 3, 4, 5, 6];
 
-  const [open, setOpen] = React.useState(true);
+  // const [open, setOpen] = React.useState(true);
 
   const [expandContent, setExpandContent] = React.useState([...arr.map((n) => false)]);
 
@@ -52,9 +52,9 @@ export default () => {
     setExpandContent([...expandContent.map((val, idx) => (idx === num ? !val : val))]);
   };
 
-  const handleClick = () => {
-    setOpen(!open);
-  };
+  // const handleClick = () => {
+  //   setOpen(!open);
+  // };
 
   return (
     <Container maxWidth="lg" style={{ background: 'red' }}>

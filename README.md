@@ -4,7 +4,7 @@
 
 An educational site with React.js
 
-### Check the site [demo](http://meghoshpritam.github.io/courses-client)
+## Check the site [demo](http://meghoshpritam.github.io/courses-client)
 
 ## Includes
 
@@ -52,4 +52,4 @@ yarn start
 pnpm start
 ```
 
-> open in your favourite browser by going [localhost:3000](http://localhost:3000/)
+> open in your favorite browser by going [localhost:3000](http://localhost:3000/)
