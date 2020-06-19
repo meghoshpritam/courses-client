@@ -11,6 +11,7 @@ import UnAuthorized from './pages/UnAuthorized';
 import Footer from './components/Footer';
 import Course from './pages/Course';
 import MyProfile from './pages/MyProfile';
+import About from './pages/About';
 
 function App() {
   return (
@@ -38,6 +39,9 @@ function App() {
                 </Route>
                 <Route path="/my-profile">
                   <MyProfile />
+                </Route>
+                <Route path="/about">
+                  <About />
                 </Route>
                 <Route path="/unauthorized">
                   <UnAuthorized />

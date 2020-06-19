@@ -24,7 +24,7 @@ export default () => {
 
   return (
     <Container maxWidth="lg">
-      <Container maxWidth="md">
+      <Container maxWidth="md" style={{ marginTop: 80 }}>
         <Grid container className={classes.details}>
           <Grid item xs={12} sm={5}>
             <img
