@@ -1,6 +1,10 @@
 # Courses Client
 
+> ⚠ under development ⚠
+
 An educational site with React.js
+
+### Check the site [demo](http://meghoshpritam.github.io/courses-client)
 
 ## Includes
 
