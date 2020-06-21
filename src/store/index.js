@@ -1,8 +1,8 @@
 import { configureStore } from '@reduxjs/toolkit';
-import counterReducer from './Slices/counterSlice';
+import apiCallReducer from './Slices/apiCall';
 
 export default configureStore({
   reducer: {
-    counter: counterReducer,
+    apiCall: apiCallReducer,
   },
 });

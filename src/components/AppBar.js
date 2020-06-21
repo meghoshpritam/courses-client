@@ -42,7 +42,6 @@ export default function MenuAppBar() {
   const open = Boolean(anchorEl);
   const history = useHistory();
   const location = useLocation();
-
   const handleMenu = (event) => {
     setAnchorEl(event.currentTarget);
   };

@@ -1,6 +1,8 @@
 import React from 'react';
 import Grid from '@material-ui/core/Grid';
+import LinearProgress from '@material-ui/core/LinearProgress';
 import { Switch, Route } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import style from './App.module.scss';
 import AppBar from './components/AppBar';
 import Home from './pages/Home';
@@ -14,12 +16,14 @@ import MyProfile from './pages/MyProfile';
 import About from './pages/About';
 
 function App() {
+  const loading = useSelector((state) => state.apiCall.loading);
   return (
     <div className={style.app}>
       <header>
         <AppBar />
       </header>
       <div className={style.main}>
+        {loading && <LinearProgress />}
         <Grid container>
           {/* <div>sidebar left</div> */}
           <Grid item xs={12}>
