@@ -53,3 +53,5 @@ pnpm start
 ```
 
 > open in your favorite browser by going [localhost:3000](http://localhost:3000/)
+
+## Server side [checkout](https://github.com/meghoshpritam/courses-server)
