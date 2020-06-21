@@ -8,10 +8,11 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { useSelector } from 'react-redux';
 import LinearProgress from '@material-ui/core/LinearProgress';
+import Typography from '@material-ui/core/Typography';
 
-export default ({ sumbitHandler }) => {
+export default ({ value, onChange, sumbitHandler, error = false, helperText = '', err }) => {
   const [open, setOpen] = useState(true);
-  const [otp, setOtp] = useState('');
+  const [otp, setOtp] = useState(() => value || '');
 
   const apiCallState = useSelector((state) => state.apiCall);
 
@@ -31,6 +32,11 @@ export default ({ sumbitHandler }) => {
       <DialogTitle id="form-dialog-title">Verify Otp</DialogTitle>
       <DialogContent>
         <DialogContentText>Enter the otp to verify otp is send in your email.</DialogContentText>
+        {err && (
+          <Typography component="body1" color="error">
+            {err}
+          </Typography>
+        )}
         <TextField
           variant="outlined"
           margin="normal"
@@ -40,8 +46,15 @@ export default ({ sumbitHandler }) => {
           id="otp"
           label="OTP"
           name="otp"
+          error={error}
+          helperText={helperText}
           value={otp}
-          onChange={(e) => setOtp(e.target.value)}
+          onChange={(e) => {
+            setOtp(e.target.value);
+            if (onChange) {
+              onChange(e.target.value);
+            }
+          }}
           autoFocus
         />
       </DialogContent>

@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-import axios from 'axios';
+import React, { useState, useEffect } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -10,9 +9,9 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import { useDispatch } from 'react-redux';
-import { setLoading, reset } from '../store/Slices/apiCall';
-import OtpVarification from '../components/OtpVarification';
+import OtpVerification from '../components/OtpVerification';
+import usePost from '../hooks/usePost';
+import { useHistory } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -36,21 +35,30 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SignIn() {
   const classes = useStyles();
-  const dispatch = useDispatch();
+  const history = useHistory();
 
   const [email, setEmail] = useState('');
-  const [err, setErr] = useState(null);
-  const [res, setRes] = useState(null);
+  const [res, err, cb] = usePost();
+  const [otp, setOtp] = useState('');
+  const [otpRes, otpErr, otpCb] = usePost();
+
+  useEffect(() => {
+    if (otpRes) {
+      const keys = Object.keys(otpRes);
+      keys.forEach((key) => {
+        localStorage.setItem(key, otpRes[key]);
+        history.push('/');
+      });
+    }
+  }, [otpRes]);
 
   const sumbitHandler = async (event) => {
     event.preventDefault();
-    dispatch(setLoading());
-    try {
-      axios.post('/auth/sign-in', { email });
-    } catch (error) {
-      setErr(error);
-    }
-    dispatch(reset());
+    cb('/auth/sign-in', { email });
+  };
+
+  const register = async () => {
+    otpCb('/auth/sign-in-otp-verify', { token: res.token, otp });
   };
 
   return (
@@ -63,6 +71,11 @@ export default function SignIn() {
         <Typography component="h1" variant="h5">
           Sign in
         </Typography>
+        {!!err?.error && (
+          <Typography variant="body1" color="error">
+            {err?.error}
+          </Typography>
+        )}
         <form className={classes.form} noValidate={false} onSubmit={sumbitHandler}>
           <TextField
             variant="outlined"
@@ -74,6 +87,8 @@ export default function SignIn() {
             label="Email Address"
             name="email"
             autoComplete="email"
+            error={!!err?.email}
+            helperText={err?.email}
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             autoFocus
@@ -90,12 +105,21 @@ export default function SignIn() {
           <Grid container justify="flex-end">
             <Grid item>
               <Link href="/sign-up" variant="body2">
-                Don't have an account? Sign Up
+                Don&apos;t have an account? Sign Up
               </Link>
             </Grid>
           </Grid>
         </form>
-        <OtpVarification />
+        {res && (
+          <OtpVerification
+            value={otp}
+            onChange={setOtp}
+            error={!!otpErr?.otp}
+            helperText={otpErr?.otp}
+            sumbitHandler={register}
+            err={otpErr?.error}
+          />
+        )}
       </div>
     </Container>
   );

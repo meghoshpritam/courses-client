@@ -8,7 +8,7 @@ import store from './store';
 import * as serviceWorker from './serviceWorker';
 import './index.scss';
 
-axios.defaults.baseURL = 'localhost:4000';
+axios.defaults.baseURL = 'http://localhost:4000';
 
 ReactDOM.render(
   <React.StrictMode>
