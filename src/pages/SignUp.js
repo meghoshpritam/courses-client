@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -8,10 +8,10 @@ import Grid from '@material-ui/core/Grid';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
+import { useHistory } from 'react-router-dom';
 import Container from '@material-ui/core/Container';
-import { useDispatch } from 'react-redux';
-import axios from 'axios';
-import { setLoading, reset } from '../store/Slices/apiCall';
+import usePost from '../hooks/usePost';
+import OtpVerification from '../components/OtpVerification';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -35,9 +35,12 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SignUp() {
   const classes = useStyles();
-  const dispatch = useDispatch();
+  const history = useHistory();
 
-  const [state, setState] = useState({ name: '', email: '', err: null, res: null });
+  const [state, setState] = useState({ name: '', email: '' });
+  const [otp, setOtp] = useState('');
+  const [res, err, cb] = usePost();
+  const [otpRes, otpErr, otpCb] = usePost();
 
   const changeState = (name) => (event) => {
     setState({ ...state, [name]: event.target.value });
@@ -45,14 +48,23 @@ export default function SignUp() {
 
   const sumbitHandler = async (event) => {
     event.preventDefault();
-    dispatch(setLoading());
-    try {
-      axios.post('/auth/sign-up', { email: state.email, name: state.name });
-    } catch (error) {
-      setState({ ...state, err: error });
-    }
-    dispatch(reset());
+
+    cb('/auth/sign-up', { email: state.email, name: state.name });
   };
+
+  const register = async () => {
+    otpCb('/auth/sign-up-otp-verify', { token: res.token, otp });
+  };
+
+  useEffect(() => {
+    if (otpRes) {
+      const keys = Object.keys(otpRes);
+      keys.forEach((key) => {
+        localStorage.setItem(key, otpRes[key]);
+        history.push('/');
+      });
+    }
+  }, [otpRes]);
 
   return (
     <Container component="main" maxWidth="xs">
@@ -64,6 +76,11 @@ export default function SignUp() {
         <Typography component="h1" variant="h5">
           Sign up
         </Typography>
+        {!!err?.error && (
+          <Typography variant="body1" color="error">
+            {err?.error}
+          </Typography>
+        )}
         <form className={classes.form} noValidate={false} onSubmit={sumbitHandler}>
           <Grid container spacing={2}>
             <Grid item xs={12}>
@@ -78,6 +95,8 @@ export default function SignUp() {
                 autoFocus
                 value={state.name}
                 onChange={changeState('name')}
+                error={!!err?.name}
+                helperText={err?.name}
               />
             </Grid>
             <Grid item xs={12}>
@@ -92,6 +111,8 @@ export default function SignUp() {
                 autoComplete="email"
                 value={state.email}
                 onChange={changeState('email')}
+                error={!!err?.email}
+                helperText={err?.email}
               />
             </Grid>
           </Grid>
@@ -112,6 +133,16 @@ export default function SignUp() {
             </Grid>
           </Grid>
         </form>
+        {res && (
+          <OtpVerification
+            value={otp}
+            onChange={setOtp}
+            error={!!otpErr?.otp}
+            helperText={otpErr?.otp}
+            sumbitHandler={register}
+            err={otpErr?.error}
+          />
+        )}
       </div>
     </Container>
   );

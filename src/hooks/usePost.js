@@ -18,10 +18,13 @@ export default () => {
       dispatch(setSuccess());
     } catch (error) {
       console.dir(error);
-      if (error.response.status === 422) {
-        setErr(format(error.response.data.errors));
-      } else if (error.response.status === 429) {
-        setErr({ error: error.response.data });
+      if (error?.message === 'Network Error' && error.response === undefined) {
+        setErr({ error: 'Network Error' });
+      }
+      if (error?.response?.status === 422) {
+        setErr(format(error?.response?.data?.errors));
+      } else if (error?.response?.status === 429) {
+        setErr({ error: error?.response?.data });
       }
       setSuccess(null);
       dispatch(setError());
