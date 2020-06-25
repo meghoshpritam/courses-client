@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import CourseCard from '../components/CourseCard';
+import Checkout from '../components/Checkout';
 
 const useStyles = makeStyles((theme) => ({
   icon: {
@@ -46,6 +47,7 @@ const Section = ({ title }) => {
 
 export default function Album() {
   const classes = useStyles();
+  const [checkout, setCheckout] = useState(false);
 
   return (
     <main>
@@ -63,7 +65,7 @@ export default function Album() {
           <div className={classes.heroButtons}>
             <Grid container spacing={2} justify="center">
               <Grid item>
-                <Button variant="contained" color="primary">
+                <Button variant="contained" color="primary" onClick={() => setCheckout(!checkout)}>
                   Main call to action
                 </Button>
               </Grid>
@@ -80,6 +82,7 @@ export default function Album() {
         {/* End hero unit */}
         <Section title="Top Courses" />
       </Container>
+      {checkout && <Checkout open={checkout} setOpen={setCheckout} />}
     </main>
   );
 }
