@@ -4,8 +4,8 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import CourseCard from '../components/CourseCard';
 import Checkout from '../components/Checkout';
+import Section from '../components/Section';
 
 const useStyles = makeStyles((theme) => ({
   icon: {
@@ -24,26 +24,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-
-const Section = ({ title }) => {
-  const classes = useStyles();
-
-  return (
-    <div className={classes.sectionContainer}>
-      <Typography variant="h5" component="h2" className={classes.sectionTitle}>
-        {title}
-      </Typography>
-      <Grid container spacing={2}>
-        {cards.map((card) => (
-          <Grid item key={card} xs={12} sm={6} md={4}>
-            <CourseCard />
-          </Grid>
-        ))}
-      </Grid>
-    </div>
-  );
-};
+const cards = [1, 2, 3, 4, 5, 6, 7, 8];
 
 export default function Album() {
   const classes = useStyles();
@@ -80,7 +61,8 @@ export default function Album() {
       </div>
       <Container className={classes.cardGrid} maxWidth="md">
         {/* End hero unit */}
-        <Section title="Top Courses" />
+        <Section title="Top Courses" cards={cards} viewAll />
+        <Section title="Goals" cards={cards} />
       </Container>
       {checkout && <Checkout open={checkout} setOpen={setCheckout} />}
     </main>

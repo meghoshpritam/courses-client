@@ -3,7 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
-import CourseCard from '../components/CourseCard';
+import Section from '../components/Section';
 
 const useStyles = makeStyles((theme) => ({
   details: {
@@ -64,25 +64,7 @@ export default () => {
           </Grid>
         </Grid>
       </Container>
-      <Grid container spacing={1}>
-        <Grid item xs={12}>
-          <Typography variant="h6" component="h3">
-            My Courses
-          </Typography>
-        </Grid>
-        <Grid item>
-          <CourseCard />
-        </Grid>
-        <Grid item>
-          <CourseCard />
-        </Grid>
-        <Grid item>
-          <CourseCard />
-        </Grid>
-        <Grid item>
-          <CourseCard />
-        </Grid>
-      </Grid>
+      <Section title="My Courses" cards={[1, 2, 3, 4, 5, 6, 7, 8]} />
     </Container>
   );
 };

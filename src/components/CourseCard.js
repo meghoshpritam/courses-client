@@ -16,6 +16,8 @@ const useStyles = makeStyles((theme) => ({
     height: '100%',
     display: 'flex',
     flexDirection: 'column',
+  },
+  hover: {
     '&:hover': {
       cursor: 'pointer',
     },
@@ -36,6 +38,13 @@ const useStyles = makeStyles((theme) => ({
     fontSize: 15,
     color: '#ffc400',
   },
+  priceAction: {
+    marginTop: theme.spacing(1),
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    // width: '100%',
+  },
 }));
 
 export default () => {
@@ -44,18 +53,18 @@ export default () => {
   return (
     <Card className={classes.card} onClick={() => console.log('clicked')}>
       <CardMedia
-        className={classes.cardMedia}
+        className={`${classes.cardMedia} ${classes.hover}`}
         image="https://source.unsplash.com/random"
         title="Image title"
       />
       <CardContent className={classes.cardContent}>
-        <Typography gutterBottom variant="h6" component="h3">
+        <Typography gutterBottom variant="h6" component="h3" className={classes.hover}>
           Heading
         </Typography>
-        <Typography variant="body2">
+        <Typography variant="body2" className={classes.hover}>
           This is a media card. You can use this section to describe the content.
         </Typography>
-        <Typography variant="caption" color="textSecondary">
+        <Typography variant="caption" color="textSecondary" className={classes.hover}>
           Nams Sdkfjk
         </Typography>
         <Grid container justify="space-between">
@@ -79,20 +88,19 @@ export default () => {
                 </div>
               </div>
             </Typography>
-            <Typography gutterBottom variant="body1" align="right">
-              <strong>&#8377; 50</strong>
-            </Typography>
+          </Grid>
+          <Grid item xs={12}>
+            <div className={classes.priceAction}>
+              <Typography variant="body1">
+                <strong>&#8377; 50</strong>
+              </Typography>
+              <Button size="small" color="primary" variant="outlined">
+                Enroll
+              </Button>
+            </div>
           </Grid>
         </Grid>
       </CardContent>
-      <CardActions>
-        <Button size="small" color="primary">
-          View
-        </Button>
-        <Button size="small" color="primary">
-          Edit
-        </Button>
-      </CardActions>
     </Card>
   );
 };
