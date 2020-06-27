@@ -28,13 +28,13 @@ const useStyles = makeStyles((theme) => ({
   contentItem: {
     margin: theme.spacing(1, 0),
     padding: theme.spacing(1.3, 1),
-    background: 'green',
+    // background: 'green',
   },
   videoList: {
     margin: theme.spacing(0.7, 0, 0.7, 4),
     padding: theme.spacing(1.5),
-    background: 'blue',
-    color: 'white',
+    // background: 'blue',
+    // color: 'white',
   },
 }));
 
@@ -57,7 +57,10 @@ export default () => {
   // };
 
   return (
-    <Container maxWidth="lg" style={{ background: 'red' }}>
+    <Container
+      maxWidth="lg"
+      // style={{ background: 'red' }}
+    >
       <Grid container>
         <Grid item xs={12}>
           <img src="https://source.unsplash.com/random" alt="img..." className={classes.img} />

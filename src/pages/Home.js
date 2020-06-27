@@ -61,8 +61,9 @@ export default function Album() {
       </div>
       <Container className={classes.cardGrid} maxWidth="md">
         {/* End hero unit */}
-        <Section title="Top Courses" cards={cards} viewAll />
+        <Section title="Top Courses" cards={cards} viewAll="/view-all/courses" />
         <Section title="Goals" cards={cards} />
+        <Section title="Projects" cards={cards} viewAll="/view-all/projects" />
       </Container>
       {checkout && <Checkout open={checkout} setOpen={setCheckout} />}
     </main>

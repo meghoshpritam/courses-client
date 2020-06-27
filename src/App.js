@@ -14,6 +14,7 @@ import Footer from './components/Footer';
 import Course from './pages/Course';
 import MyProfile from './pages/MyProfile';
 import About from './pages/About';
+import ViewAll from './pages/ViewAll';
 
 function App() {
   const loading = useSelector((state) => state.apiCall.loading);
@@ -46,6 +47,9 @@ function App() {
                 </Route>
                 <Route path="/about">
                   <About />
+                </Route>
+                <Route path="/view-all/:type">
+                  <ViewAll />
                 </Route>
                 <Route path="/unauthorized">
                   <UnAuthorized />

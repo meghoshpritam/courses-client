@@ -4,6 +4,8 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
+import { useHistory } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import CourseCard from './CourseCard';
 
 const useStyles = makeStyles((theme) => ({
@@ -34,8 +36,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default ({ title, cards = [], viewAll = false }) => {
+const Section = ({ title, cards, viewAll }) => {
   const classes = useStyles();
+  const history = useHistory();
+
   return (
     <div className={classes.sectionContainer}>
       <Typography variant="h5" component="h2" className={classes.sectionTitle}>
@@ -50,8 +54,20 @@ export default ({ title, cards = [], viewAll = false }) => {
         {viewAll && (
           <Grid item xs={12} sm={6} md={4}>
             <Card className={classes.viewAllCard}>
-              <ArrowForwardIcon className={classes.arrowIcon} />
-              <Typography variant="h6" component="h3" className={classes.sectionTitle}>
+              <ArrowForwardIcon
+                className={classes.arrowIcon}
+                onClick={() => {
+                  history.push(viewAll);
+                }}
+              />
+              <Typography
+                variant="h6"
+                component="h3"
+                className={classes.sectionTitle}
+                onClick={() => {
+                  history.push(viewAll);
+                }}
+              >
                 View all {title}
               </Typography>
             </Card>
@@ -61,3 +77,17 @@ export default ({ title, cards = [], viewAll = false }) => {
     </div>
   );
 };
+
+Section.propTypes = {
+  title: PropTypes.string.isRequired,
+  // eslint-disable-next-line react/forbid-prop-types
+  cards: PropTypes.array,
+  viewAll: PropTypes.string,
+};
+
+Section.defaultProps = {
+  cards: [],
+  viewAll: undefined,
+};
+
+export default Section;
