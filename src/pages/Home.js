@@ -36,33 +36,41 @@ export default function Album() {
       <div className={classes.heroContent}>
         <Container maxWidth="sm">
           <Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>
-            Album layout
+            Courses for you
           </Typography>
           <Typography variant="h5" align="center" color="textSecondary" paragraph>
-            Something short and leading about the collection below—its contents, the creator, etc.
-            Make it short and sweet, but not too short so folks don&apos;t simply skip over it
-            entirely.
+            Never stope learning, We introduce you the courses you need for your success. Are you
+            miss your physical class room due to Covid19 we introduce you the digital class room
+            with professional teacher support and accomplish your dream goals.
           </Typography>
           <div className={classes.heroButtons}>
             <Grid container spacing={2} justify="center">
               <Grid item>
-                <Button variant="contained" color="primary" onClick={() => setCheckout(!checkout)}>
-                  Main call to action
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={() => {
+                    window.location.href = '/#explore';
+                  }}
+                >
+                  Explore the courses
                 </Button>
               </Grid>
               <Grid item>
                 <Button variant="outlined" color="primary">
-                  Secondary action
+                  Join to our community now
                 </Button>
               </Grid>
             </Grid>
           </div>
         </Container>
       </div>
-      <Container className={classes.cardGrid} maxWidth="md">
+      <Container className={classes.cardGrid} maxWidth="lg" id="explore">
         {/* End hero unit */}
         <Section title="Top Courses" cards={cards} viewAll="/view-all/courses" />
+        <div style={{ margin: 60 }} />
         <Section title="Goals" cards={cards} />
+        <div style={{ margin: 60 }} />
         <Section title="Projects" cards={cards} viewAll="/view-all/projects" />
       </Container>
       {checkout && <Checkout open={checkout} setOpen={setCheckout} />}

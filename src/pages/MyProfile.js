@@ -3,6 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
+import { useParams } from 'react-router-dom';
 import Section from '../components/Section';
 
 const useStyles = makeStyles((theme) => ({
@@ -21,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default () => {
   const classes = useStyles();
-
+  const { id } = useParams();
   return (
     <Container maxWidth="lg">
       <Container maxWidth="md" style={{ marginTop: 80 }}>

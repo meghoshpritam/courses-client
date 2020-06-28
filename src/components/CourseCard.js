@@ -22,6 +22,11 @@ const useStyles = makeStyles((theme) => ({
       cursor: 'pointer',
     },
   },
+  instructorName: {
+    fontWeight: 'bold',
+    paddingTop: theme.spacing(1),
+    marginBottom: theme.spacing(1),
+  },
   cardMedia: {
     paddingTop: '56.25%', // 16:9
   },
@@ -64,7 +69,11 @@ export default () => {
         <Typography variant="body2" className={classes.hover}>
           This is a media card. You can use this section to describe the content.
         </Typography>
-        <Typography variant="caption" color="textSecondary" className={classes.hover}>
+        <Typography
+          variant="body2"
+          color="textSecondary"
+          className={`${classes.hover} ${classes.instructorName}`}
+        >
           Nams Sdkfjk
         </Typography>
         <Grid container justify="space-between">

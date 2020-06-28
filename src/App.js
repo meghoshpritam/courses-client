@@ -42,7 +42,7 @@ function App() {
                 <Route path="/course/:id">
                   <Course />
                 </Route>
-                <Route path="/my-profile">
+                <Route path="/my-profile/:id">
                   <MyProfile />
                 </Route>
                 <Route path="/about">

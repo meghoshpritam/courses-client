@@ -11,9 +11,9 @@ import CourseCard from './CourseCard';
 const useStyles = makeStyles((theme) => ({
   sectionTitle: {
     paddingTop: theme.spacing(2),
-    paddingBottom: theme.spacing(2),
+    paddingBottom: theme.spacing(1),
     marginTop: theme.spacing(2),
-    marginBottom: theme.spacing(2),
+    marginBottom: theme.spacing(1),
     '&:hover': {
       cursor: 'pointer',
     },
@@ -26,6 +26,7 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'column',
   },
   arrowIcon: {
+    marginTop: theme.spacing(4),
     display: 'block',
     background: '#cecece',
     padding: theme.spacing(1),
@@ -47,7 +48,7 @@ const Section = ({ title, cards, viewAll }) => {
       </Typography>
       <Grid container spacing={2}>
         {cards.map((card) => (
-          <Grid item key={card} xs={12} sm={6} md={4}>
+          <Grid item key={card} xs={12} sm={6} md={4} lg={3}>
             <CourseCard />
           </Grid>
         ))}
