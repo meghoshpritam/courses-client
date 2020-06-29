@@ -10,6 +10,7 @@ import StarIcon from '@material-ui/icons/Star';
 import StarBorderIcon from '@material-ui/icons/StarBorder';
 import StarHalfIcon from '@material-ui/icons/StarHalf';
 import Button from '@material-ui/core/Button';
+import payment from '../assets/functions/payment';
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -103,7 +104,7 @@ export default () => {
               <Typography variant="body1">
                 <strong>&#8377; 50</strong>
               </Typography>
-              <Button size="small" color="primary" variant="outlined">
+              <Button size="small" color="primary" variant="outlined" onClick={payment}>
                 Enroll
               </Button>
             </div>

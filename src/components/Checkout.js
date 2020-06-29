@@ -34,7 +34,7 @@ export default ({ open, setOpen }) => {
     console.log('print', res);
 
     const option = {
-      key: 'rzp_test_Cz1t81cN7RWiUf', // Enter the Key ID generated from the Dashboard
+      key: process.env.RZP_KEY,
       amount: 800,
       currency: res.currency,
       name: 'Acme Corp',

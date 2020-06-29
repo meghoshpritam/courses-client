@@ -6,6 +6,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Checkout from '../components/Checkout';
 import Section from '../components/Section';
+import useRpay from '../hooks/useRpay';
 
 const useStyles = makeStyles((theme) => ({
   icon: {
@@ -29,6 +30,8 @@ const cards = [1, 2, 3, 4, 5, 6, 7, 8];
 export default function Album() {
   const classes = useStyles();
   const [checkout, setCheckout] = useState(false);
+
+  useRpay();
 
   return (
     <main>
