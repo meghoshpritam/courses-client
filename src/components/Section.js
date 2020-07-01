@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
@@ -7,6 +8,7 @@ import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import CourseCard from './CourseCard';
+import { toDate } from '../assets/functions/util';
 
 const useStyles = makeStyles((theme) => ({
   sectionTitle: {
@@ -37,7 +39,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Section = ({ title, cards, viewAll }) => {
+const Section = ({ title, data, viewAll, type }) => {
   const classes = useStyles();
   const history = useHistory();
 
@@ -47,9 +49,21 @@ const Section = ({ title, cards, viewAll }) => {
         {title}
       </Typography>
       <Grid container spacing={2}>
-        {cards.map((card) => (
-          <Grid item key={card} xs={12} sm={6} md={4} lg={3}>
-            <CourseCard />
+        {data.map((d) => (
+          <Grid item key={d._id} xs={12} sm={6} md={4} lg={3}>
+            <CourseCard
+              title={d.name}
+              description={d.description}
+              lastUpdated={toDate(d.updated)}
+              creator={d.creator.name}
+              rating={Number(d.totalRating)}
+              totalRating={Number(d.totalUser)}
+              price={Number(d.price)}
+              img={d.img}
+              video={d.video}
+              id={d._id}
+              type={type}
+            />
           </Grid>
         ))}
         {viewAll && (
@@ -82,12 +96,13 @@ const Section = ({ title, cards, viewAll }) => {
 Section.propTypes = {
   title: PropTypes.string.isRequired,
   // eslint-disable-next-line react/forbid-prop-types
-  cards: PropTypes.array,
+  data: PropTypes.array,
   viewAll: PropTypes.string,
+  type: PropTypes.string.isRequired,
 };
 
 Section.defaultProps = {
-  cards: [],
+  data: [],
   viewAll: undefined,
 };
 

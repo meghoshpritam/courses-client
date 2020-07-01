@@ -1,16 +1,16 @@
 import React from 'react';
 import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
-import StarIcon from '@material-ui/icons/Star';
-import StarBorderIcon from '@material-ui/icons/StarBorder';
-import StarHalfIcon from '@material-ui/icons/StarHalf';
+import { useHistory } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
+import PropTypes from 'prop-types';
 import payment from '../assets/functions/payment';
+import Rating from './Rating';
+import { getYTVideoThumbnail } from '../assets/functions/util';
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -40,10 +40,7 @@ const useStyles = makeStyles((theme) => ({
   sectionTitle: {
     padding: theme.spacing(2, 0),
   },
-  starIcon: {
-    fontSize: 15,
-    color: '#ffc400',
-  },
+
   priceAction: {
     marginTop: theme.spacing(1),
     display: 'flex',
@@ -53,56 +50,61 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default () => {
+const CourseCard = ({
+  title,
+  description,
+  creator,
+  lastUpdated,
+  rating,
+  totalRating,
+  price,
+  img,
+  video,
+  type,
+  id,
+}) => {
   const classes = useStyles();
+  const history = useHistory();
 
   return (
     <Card className={classes.card} onClick={() => console.log('clicked')}>
       <CardMedia
         className={`${classes.cardMedia} ${classes.hover}`}
-        image="https://source.unsplash.com/random"
-        title="Image title"
+        image={video ? getYTVideoThumbnail(video) : img}
+        title={`${title}-image`}
+        onClick={() => {
+          history.push(`/${type}/${id}`);
+        }}
       />
       <CardContent className={classes.cardContent}>
         <Typography gutterBottom variant="h6" component="h3" className={classes.hover}>
-          Heading
+          {title}
         </Typography>
         <Typography variant="body2" className={classes.hover}>
-          This is a media card. You can use this section to describe the content.
+          {description}
         </Typography>
         <Typography
           variant="body2"
           color="textSecondary"
           className={`${classes.hover} ${classes.instructorName}`}
         >
-          Nams Sdkfjk
+          {creator}
         </Typography>
         <Grid container justify="space-between">
           <Grid item>
             <Typography variant="caption" color="textSecondary">
-              <strong>25/06/2020</strong>
+              <strong>{lastUpdated}</strong>
             </Typography>
           </Grid>
           <Grid item>
             <Typography variant="caption">
-              <div style={{ display: 'flex' }} color="textPrimary">
-                <div style={{ marginTop: 3, marginRight: 3 }}>
-                  <StarIcon className={classes.starIcon} />
-                  <StarIcon className={classes.starIcon} />
-                  <StarIcon className={classes.starIcon} />
-                  <StarHalfIcon className={classes.starIcon} />
-                  <StarBorderIcon className={classes.starIcon} />
-                </div>
-                <div>
-                  <strong> 4.3 </strong>(5646)
-                </div>
-              </div>
+              <Rating rating={rating} totalRating={totalRating} />
             </Typography>
           </Grid>
           <Grid item xs={12}>
             <div className={classes.priceAction}>
               <Typography variant="body1">
-                <strong>&#8377; 50</strong>
+                {price === 0 ? <strong>Free</strong> : <strong>&#8377; {price}</strong>}
               </Typography>
               <Button size="small" color="primary" variant="outlined" onClick={payment}>
                 Enroll
@@ -114,3 +116,25 @@ export default () => {
     </Card>
   );
 };
+
+CourseCard.propTypes = {
+  title: PropTypes.string.isRequired,
+  description: PropTypes.string.isRequired,
+  creator: PropTypes.string.isRequired,
+  lastUpdated: PropTypes.string.isRequired,
+  rating: PropTypes.number.isRequired,
+  totalRating: PropTypes.number.isRequired,
+  price: PropTypes.number.isRequired,
+  img: PropTypes.string,
+  video: PropTypes.string,
+  type: PropTypes.string,
+  id: PropTypes.string.isRequired,
+};
+
+CourseCard.defaultProps = {
+  img: undefined,
+  video: undefined,
+  type: 'course',
+};
+
+export default CourseCard;

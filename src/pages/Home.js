@@ -1,12 +1,14 @@
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import Checkout from '../components/Checkout';
+import { useHistory } from 'react-router-dom';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import Section from '../components/Section';
 import useRpay from '../hooks/useRpay';
+import useGet from '../hooks/useGet';
 
 const useStyles = makeStyles((theme) => ({
   icon: {
@@ -23,15 +25,24 @@ const useStyles = makeStyles((theme) => ({
     paddingTop: theme.spacing(8),
     paddingBottom: theme.spacing(8),
   },
+  loading: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: theme.spacing(30),
+  },
 }));
-
-const cards = [1, 2, 3, 4, 5, 6, 7, 8];
 
 export default function Album() {
   const classes = useStyles();
-  const [checkout, setCheckout] = useState(false);
+  const history = useHistory();
+  const [res, err, get] = useGet();
 
   useRpay();
+
+  useEffect(() => {
+    get('/pages/home');
+  }, []);
 
   return (
     <main>
@@ -60,7 +71,13 @@ export default function Album() {
                 </Button>
               </Grid>
               <Grid item>
-                <Button variant="outlined" color="primary">
+                <Button
+                  variant="outlined"
+                  color="primary"
+                  onClick={() => {
+                    history.push('/sign-up');
+                  }}
+                >
                   Join to our community now
                 </Button>
               </Grid>
@@ -68,15 +85,30 @@ export default function Album() {
           </div>
         </Container>
       </div>
-      <Container className={classes.cardGrid} maxWidth="lg" id="explore">
-        {/* End hero unit */}
-        <Section title="Top Courses" cards={cards} viewAll="/view-all/courses" />
-        <div style={{ margin: 60 }} />
-        <Section title="Goals" cards={cards} />
-        <div style={{ margin: 60 }} />
-        <Section title="Projects" cards={cards} viewAll="/view-all/projects" />
-      </Container>
-      {checkout && <Checkout open={checkout} setOpen={setCheckout} />}
+      {/* End hero unit */}
+      {res ? (
+        <Container className={classes.cardGrid} maxWidth="lg" id="explore">
+          <Section
+            title="Top Courses"
+            data={res?.courses}
+            viewAll="/view-all/courses"
+            type="course"
+          />
+          <div style={{ margin: 60 }} />
+          <Section title="Goals" data={res?.goals} type="goal" />
+          <div style={{ margin: 60 }} />
+          <Section
+            title="Projects"
+            data={res?.projects}
+            viewAll="/view-all/projects"
+            type="project"
+          />
+        </Container>
+      ) : (
+        <div className={classes.loading}>
+          <CircularProgress />
+        </div>
+      )}
     </main>
   );
 }

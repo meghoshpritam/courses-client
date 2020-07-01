@@ -12,6 +12,7 @@ export default async () => {
         },
       }
     );
+    // TODO: check price is 0, then show as added else open payment system
   } catch (err) {
     console.log('error: ', err, err.response);
     return;
