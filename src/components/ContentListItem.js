@@ -7,7 +7,7 @@ export default function ContentListItem() {
     <div className={style.container}>
       <div>sdsj djksjdkjsd s fdkki erehrejkj dfkl hjdf dhfdhffhdfh hdjfhdh</div>
       <div>
-        <PlayCircleFilledIcon />
+        <PlayCircleFilledIcon color="primary" />
       </div>
       <div>
         Descriptions hsjd shdjs Lorem ipsum dolor sit amet consectetur, adipisicing elit. Dicta
