@@ -87,6 +87,7 @@ export default () => {
     >
       {res ? (
         <Grid container>
+          {/* TODO: change the name of the video or image and show the selected one */}
           <Grid item xs={12}>
             <img src="https://source.unsplash.com/random" alt="img..." className={classes.img} />
           </Grid>
@@ -143,6 +144,7 @@ export default () => {
               </Grid>
             )}
           </Grid>
+          {/* TODO: check the course content and list accordingly if paid then lock icon, video play icon, assignment, examination icon, quiz icon */}
           <Grid item xs={12} className={classes.detailsSection}>
             <Grid container>
               <Grid item xs={12}>

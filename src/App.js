@@ -12,7 +12,7 @@ import NotFound from './pages/NotFound';
 import UnAuthorized from './pages/UnAuthorized';
 import Footer from './components/Footer';
 import Course from './pages/Course';
-import MyProfile from './pages/MyProfile';
+import Profile from './pages/Profile';
 import About from './pages/About';
 import ViewAll from './pages/ViewAll';
 
@@ -43,7 +43,7 @@ function App() {
                   <Course />
                 </Route>
                 <Route path="/my-profile/:id">
-                  <MyProfile />
+                  <Profile />
                 </Route>
                 <Route path="/about">
                   <About />
