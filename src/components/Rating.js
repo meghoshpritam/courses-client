@@ -3,34 +3,29 @@ import PropTypes from 'prop-types';
 import StarIcon from '@material-ui/icons/Star';
 import StarBorderIcon from '@material-ui/icons/StarBorder';
 import StarHalfIcon from '@material-ui/icons/StarHalf';
-import { makeStyles } from '@material-ui/core/styles';
 
-const useStyles = makeStyles(() => ({
-  starIcon: {
-    fontSize: 15,
+const Rating = ({ rating, totalRating, fontSize }) => {
+  const style = {
+    fontSize,
     color: '#ffc400',
-  },
-}));
-
-const Rating = ({ rating, totalRating }) => {
-  const classes = useStyles();
+  };
 
   return (
     <div style={{ display: 'flex' }} color="textPrimary">
-      <div style={{ marginTop: 3, marginRight: 3 }}>
+      <div>
         {Array.from(Array(Math.floor(rating)).keys()).map((el) => (
-          <StarIcon className={classes.starIcon} key={el} />
+          <StarIcon style={style} key={el} />
         ))}
-        {rating - Math.floor(rating) > 0.2 && <StarHalfIcon className={classes.starIcon} />}
+        {rating - Math.floor(rating) > 0.2 && <StarHalfIcon style={style} />}
         {Array.from(
           Array(
             rating - Math.floor(rating) > 0.2 ? 5 - Math.ceil(rating) : 5 - Math.floor(rating)
           ).keys()
         ).map((el) => (
-          <StarBorderIcon className={classes.starIcon} key={el} />
+          <StarBorderIcon style={style} key={el} />
         ))}
       </div>
-      <div>
+      <div style={{ fontSize: fontSize - 3, marginLeft: 4 }}>
         <strong> {rating} </strong>({totalRating})
       </div>
     </div>
@@ -40,6 +35,11 @@ const Rating = ({ rating, totalRating }) => {
 Rating.propTypes = {
   rating: PropTypes.number.isRequired,
   totalRating: PropTypes.number.isRequired,
+  fontSize: PropTypes.number,
+};
+
+Rating.defaultProps = {
+  fontSize: 15,
 };
 
 export default Rating;

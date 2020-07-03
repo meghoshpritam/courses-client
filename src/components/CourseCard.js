@@ -8,6 +8,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { useHistory } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 import PropTypes from 'prop-types';
+import Link from '@material-ui/core/Link';
 import payment from '../assets/functions/payment';
 import Rating from './Rating';
 import { getYTVideoThumbnail } from '../assets/functions/util';
@@ -62,6 +63,7 @@ const CourseCard = ({
   video,
   type,
   id,
+  creatorId,
 }) => {
   const classes = useStyles();
   const history = useHistory();
@@ -81,14 +83,17 @@ const CourseCard = ({
           {title}
         </Typography>
         <Typography variant="body2" className={classes.hover}>
-          {description}
+          {description.substring(0, 100)}
+          {description.length > 100 && `...`}
         </Typography>
         <Typography
           variant="body2"
           color="textSecondary"
           className={`${classes.hover} ${classes.instructorName}`}
         >
-          {creator}
+          <Link color="inherit" href={`/profile/${creatorId}`} target="_blank">
+            {creator}
+          </Link>
         </Typography>
         <Grid container justify="space-between">
           <Grid item>
@@ -97,9 +102,7 @@ const CourseCard = ({
             </Typography>
           </Grid>
           <Grid item>
-            <Typography variant="caption">
-              <Rating rating={rating} totalRating={totalRating} />
-            </Typography>
+            <Rating rating={rating} totalRating={totalRating} />
           </Grid>
           <Grid item xs={12}>
             <div className={classes.priceAction}>
@@ -129,6 +132,7 @@ CourseCard.propTypes = {
   video: PropTypes.string,
   type: PropTypes.string,
   id: PropTypes.string.isRequired,
+  creatorId: PropTypes.string.isRequired,
 };
 
 CourseCard.defaultProps = {
