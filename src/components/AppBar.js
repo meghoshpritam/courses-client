@@ -6,8 +6,6 @@ import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import AccountCircle from '@material-ui/icons/AccountCircle';
-import MenuItem from '@material-ui/core/MenuItem';
-import Menu from '@material-ui/core/Menu';
 import Drawer from '@material-ui/core/Drawer';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
@@ -16,6 +14,17 @@ import InboxIcon from '@material-ui/icons/MoveToInbox';
 import List from '@material-ui/core/List';
 import Link from '@material-ui/core/Link';
 import { useHistory, useLocation } from 'react-router-dom';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import HomeIcon from '@material-ui/icons/Home';
+import LockOpenIcon from '@material-ui/icons/LockOpen';
+import InfoIcon from '@material-ui/icons/Info';
+import ClassIcon from '@material-ui/icons/Class';
+import AssignmentIcon from '@material-ui/icons/Assignment';
+import CategoryIcon from '@material-ui/icons/Category';
+import HelpIcon from '@material-ui/icons/Help';
+import { Divider, Button } from '@material-ui/core';
+import BugReportIcon from '@material-ui/icons/BugReport';
+import NoteAddIcon from '@material-ui/icons/NoteAdd';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -37,18 +46,9 @@ const useStyles = makeStyles((theme) => ({
 
 export default function MenuAppBar() {
   const classes = useStyles();
-  const [anchorEl, setAnchorEl] = useState(null);
   const [openDrawer, setOpenDrawer] = useState(false);
-  const open = Boolean(anchorEl);
   const history = useHistory();
   const location = useLocation();
-  const handleMenu = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
 
   const toggleDrawer = (event) => {
     if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
@@ -79,33 +79,20 @@ export default function MenuAppBar() {
             </Typography>
 
             <div>
+              {!localStorage.getItem('accessToken') && (
+                <Button variant="outlined" color="inherit">
+                  Sign Up
+                </Button>
+              )}
               <IconButton
-                aria-label="account of current user"
-                aria-controls="menu-appbar"
-                aria-haspopup="true"
-                onClick={handleMenu}
                 color="inherit"
+                onClick={() => {
+                  if (localStorage.getItem('accessToken')) history.push('/profile/me');
+                  else history.push('/sign-in');
+                }}
               >
                 <AccountCircle />
               </IconButton>
-              <Menu
-                id="menu-appbar"
-                anchorEl={anchorEl}
-                anchorOrigin={{
-                  vertical: 'top',
-                  horizontal: 'right',
-                }}
-                keepMounted
-                transformOrigin={{
-                  vertical: 'top',
-                  horizontal: 'right',
-                }}
-                open={open}
-                onClose={handleClose}
-              >
-                <MenuItem onClick={handleClose}>Profile</MenuItem>
-                <MenuItem onClick={handleClose}>My account</MenuItem>
-              </Menu>
             </div>
           </Toolbar>
         </AppBar>
@@ -120,47 +107,100 @@ export default function MenuAppBar() {
           <List>
             <ListItem button onClick={() => history.push('/')} selected={location.pathname === '/'}>
               <ListItemIcon>
-                <InboxIcon />
+                <HomeIcon />
               </ListItemIcon>
               <ListItemText primary="Home" />
             </ListItem>
-            <ListItem
-              button
-              onClick={() => history.push('/sign-in')}
-              selected={location.pathname === '/sign-in'}
-            >
-              <ListItemIcon>
-                <InboxIcon />
-              </ListItemIcon>
-              <ListItemText primary="Sign In" />
-            </ListItem>
-            <ListItem
-              button
-              onClick={() => history.push('/sign-up')}
-              selected={location.pathname === '/sign-up'}
-            >
-              <ListItemIcon>
-                <InboxIcon />
-              </ListItemIcon>
-              <ListItemText primary="Sign Up" />
-            </ListItem>
+            {!localStorage.getItem('accessToken') && (
+              <>
+                <ListItem
+                  button
+                  onClick={() => history.push('/sign-in')}
+                  selected={location.pathname === '/sign-in'}
+                >
+                  <ListItemIcon>
+                    <LockOpenIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="Sign In" />
+                </ListItem>
+                <ListItem
+                  button
+                  onClick={() => history.push('/sign-up')}
+                  selected={location.pathname === '/sign-up'}
+                >
+                  <ListItemIcon>
+                    <LockOpenIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="Sign Up" />
+                </ListItem>
+              </>
+            )}
             <ListItem
               button
               onClick={() => history.push('/my-profile')}
               selected={location.pathname === '/my-profile'}
             >
               <ListItemIcon>
-                <InboxIcon />
+                <AccountCircle />
               </ListItemIcon>
+
               <ListItemText primary="My Profile" />
             </ListItem>
+
+            <ListItem
+              button
+              onClick={() => history.push('/course/1')}
+              selected={location.pathname === '/course'}
+            >
+              <ListItemIcon>
+                <ClassIcon />
+              </ListItemIcon>
+              <ListItemText primary="Courses" />
+            </ListItem>
+            <ListItem
+              button
+              onClick={() => history.push('/course/1')}
+              selected={location.pathname === '/course'}
+            >
+              <ListItemIcon>
+                <AssignmentIcon />
+              </ListItemIcon>
+              <ListItemText primary="Projects" />
+            </ListItem>
+            <ListItem
+              button
+              onClick={() => history.push('/course/1')}
+              selected={location.pathname === '/course'}
+            >
+              <ListItemIcon>
+                <CategoryIcon />
+              </ListItemIcon>
+              <ListItemText primary="Goals" />
+            </ListItem>
+
+            {localStorage.getItem('role') === 'admin' && (
+              <>
+                <Divider />
+                <ListItem
+                  button
+                  onClick={() => history.push('/add-course')}
+                  selected={location.pathname === '/add-course'}
+                >
+                  <ListItemIcon>
+                    <NoteAddIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="Add Course" />
+                </ListItem>
+              </>
+            )}
+            <Divider />
             <ListItem
               button
               onClick={() => history.push('/about')}
               selected={location.pathname === '/about'}
             >
               <ListItemIcon>
-                <InboxIcon />
+                <InfoIcon />
               </ListItemIcon>
               <ListItemText primary="About" />
             </ListItem>
@@ -170,9 +210,32 @@ export default function MenuAppBar() {
               selected={location.pathname === '/course'}
             >
               <ListItemIcon>
-                <InboxIcon />
+                <HelpIcon />
               </ListItemIcon>
-              <ListItemText primary="Course" />
+              <ListItemText primary="Help" />
+            </ListItem>
+            <ListItem
+              button
+              onClick={() => window.open('https://meghoshpritam.netlify.app', '_blank')}
+              selected={location.pathname === '/course'}
+            >
+              <ListItemIcon>
+                <BugReportIcon />
+              </ListItemIcon>
+              <ListItemText primary="Report a Bug" />
+            </ListItem>
+            <Divider />
+            <ListItem
+              button
+              onClick={() => {
+                // TODO: sign out from server
+                localStorage.clear();
+              }}
+            >
+              <ListItemIcon>
+                <ExitToAppIcon />
+              </ListItemIcon>
+              <ListItemText primary="Sign Out" />
             </ListItem>
           </List>
         </div>
