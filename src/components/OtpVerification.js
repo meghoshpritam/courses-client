@@ -9,8 +9,16 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import { useSelector } from 'react-redux';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import Typography from '@material-ui/core/Typography';
+import PropTypes from 'prop-types';
 
-export default ({ value, onChange, sumbitHandler, error = false, helperText = '', err }) => {
+const OtpVerification = ({
+  value,
+  onChange,
+  submitHandler,
+  error = false,
+  helperText = '',
+  err,
+}) => {
   const [open, setOpen] = useState(true);
   const [otp, setOtp] = useState(() => value || '');
 
@@ -20,9 +28,9 @@ export default ({ value, onChange, sumbitHandler, error = false, helperText = ''
     setOpen(false);
   };
 
-  const onSubmut = () => {
-    if (sumbitHandler !== undefined) {
-      sumbitHandler();
+  const onSubmit = () => {
+    if (submitHandler !== undefined) {
+      submitHandler();
     }
   };
 
@@ -62,10 +70,30 @@ export default ({ value, onChange, sumbitHandler, error = false, helperText = ''
         <Button onClick={handleClose} color="primary" disabled={apiCallState.loading}>
           Cancel
         </Button>
-        <Button onClick={onSubmut} color="primary" disabled={apiCallState.loading}>
+        <Button onClick={onSubmit} color="primary" disabled={apiCallState.loading}>
           Verify
         </Button>
       </DialogActions>
     </Dialog>
   );
 };
+
+OtpVerification.propTypes = {
+  value: PropTypes.string,
+  onChange: PropTypes.func,
+  submitHandler: PropTypes.func,
+  error: PropTypes.bool,
+  helperText: PropTypes.string,
+  err: PropTypes.string,
+};
+
+OtpVerification.defaultProps = {
+  value: undefined,
+  onChange: undefined,
+  submitHandler: undefined,
+  error: false,
+  helperText: '',
+  err: undefined,
+};
+
+export default OtpVerification;

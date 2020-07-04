@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -10,7 +10,6 @@ import Drawer from '@material-ui/core/Drawer';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
 import List from '@material-ui/core/List';
 import Link from '@material-ui/core/Link';
 import { useHistory, useLocation } from 'react-router-dom';
@@ -25,6 +24,7 @@ import HelpIcon from '@material-ui/icons/Help';
 import { Divider, Button } from '@material-ui/core';
 import BugReportIcon from '@material-ui/icons/BugReport';
 import NoteAddIcon from '@material-ui/icons/NoteAdd';
+import usePost from '../hooks/usePost';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -50,6 +50,8 @@ export default function MenuAppBar() {
   const history = useHistory();
   const location = useLocation();
 
+  const [res, err, post] = usePost();
+
   const toggleDrawer = (event) => {
     if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
       return;
@@ -57,6 +59,10 @@ export default function MenuAppBar() {
 
     setOpenDrawer(!openDrawer);
   };
+
+  useEffect(() => {
+    if (res && !err) localStorage.clear();
+  }, [res, err]);
 
   return (
     <>
@@ -80,7 +86,7 @@ export default function MenuAppBar() {
 
             <div>
               {!localStorage.getItem('accessToken') && (
-                <Button variant="outlined" color="inherit">
+                <Button variant="outlined" color="inherit" onClick={() => history.push('/sign-up')}>
                   Sign Up
                 </Button>
               )}
@@ -135,18 +141,19 @@ export default function MenuAppBar() {
                 </ListItem>
               </>
             )}
-            <ListItem
-              button
-              onClick={() => history.push('/my-profile')}
-              selected={location.pathname === '/my-profile'}
-            >
-              <ListItemIcon>
-                <AccountCircle />
-              </ListItemIcon>
+            {localStorage.getItem('accessToken') && (
+              <ListItem
+                button
+                onClick={() => history.push('/my-profile')}
+                selected={location.pathname === '/my-profile'}
+              >
+                <ListItemIcon>
+                  <AccountCircle />
+                </ListItemIcon>
 
-              <ListItemText primary="My Profile" />
-            </ListItem>
-
+                <ListItemText primary="My Profile" />
+              </ListItem>
+            )}
             <ListItem
               button
               onClick={() => history.push('/course/1')}
@@ -224,19 +231,22 @@ export default function MenuAppBar() {
               </ListItemIcon>
               <ListItemText primary="Report a Bug" />
             </ListItem>
-            <Divider />
-            <ListItem
-              button
-              onClick={() => {
-                // TODO: sign out from server
-                localStorage.clear();
-              }}
-            >
-              <ListItemIcon>
-                <ExitToAppIcon />
-              </ListItemIcon>
-              <ListItemText primary="Sign Out" />
-            </ListItem>
+            {localStorage.getItem('accessToken') && (
+              <>
+                <Divider />
+                <ListItem
+                  button
+                  onClick={() => {
+                    post('/auth/sign-out', { refreshToken: localStorage.getItem('refreshToken') });
+                  }}
+                >
+                  <ListItemIcon>
+                    <ExitToAppIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="Sign Out" />
+                </ListItem>
+              </>
+            )}
           </List>
         </div>
       </Drawer>

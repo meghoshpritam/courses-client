@@ -3,13 +3,12 @@ import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
-import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import { useHistory } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import OtpVerification from '../components/OtpVerification';
 import usePost from '../hooks/usePost';
 
@@ -31,6 +30,13 @@ const useStyles = makeStyles((theme) => ({
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
+  link: {
+    color: theme.palette.primary.dark,
+    textDecoration: 'none',
+    '&:hover': {
+      textDecoration: 'underline',
+    },
+  },
 }));
 
 export default function SignIn() {
@@ -50,9 +56,9 @@ export default function SignIn() {
         history.push('/');
       });
     }
-  }, [otpRes]);
+  }, [otpRes, history]);
 
-  const sumbitHandler = async (event) => {
+  const submitHandler = async (event) => {
     event.preventDefault();
     cb('/auth/sign-in', { email });
   };
@@ -76,7 +82,7 @@ export default function SignIn() {
             {err?.error}
           </Typography>
         )}
-        <form className={classes.form} noValidate={false} onSubmit={sumbitHandler}>
+        <form className={classes.form} noValidate={false} onSubmit={submitHandler}>
           <TextField
             variant="outlined"
             margin="normal"
@@ -104,7 +110,7 @@ export default function SignIn() {
           </Button>
           <Grid container justify="flex-end">
             <Grid item>
-              <Link href="/sign-up" variant="body2">
+              <Link to="/sign-up" className={classes.link}>
                 Don&apos;t have an account? Sign Up
               </Link>
             </Grid>
@@ -116,7 +122,7 @@ export default function SignIn() {
             onChange={setOtp}
             error={!!otpErr?.otp}
             helperText={otpErr?.otp}
-            sumbitHandler={register}
+            submitHandler={register}
             err={otpErr?.error}
           />
         )}

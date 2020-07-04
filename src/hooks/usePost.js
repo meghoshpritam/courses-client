@@ -9,7 +9,15 @@ export default () => {
   const [response, setResponse] = useState(null);
   const dispatch = useDispatch();
 
-  const cb = async (url, data, config = {}) => {
+  const cb = async (
+    url,
+    data,
+    config = {
+      headers: {
+        authorization: localStorage.getItem('accessToken'),
+      },
+    }
+  ) => {
     dispatch(setLoading());
     try {
       const res = await axios.post(url, data, config);

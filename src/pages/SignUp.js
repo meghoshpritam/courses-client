@@ -3,12 +3,11 @@ import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
-import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
-import { useHistory } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import Container from '@material-ui/core/Container';
 import usePost from '../hooks/usePost';
 import OtpVerification from '../components/OtpVerification';
@@ -31,6 +30,13 @@ const useStyles = makeStyles((theme) => ({
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
+  link: {
+    color: theme.palette.primary.dark,
+    textDecoration: 'none',
+    '&:hover': {
+      textDecoration: 'underline',
+    },
+  },
 }));
 
 export default function SignUp() {
@@ -46,7 +52,7 @@ export default function SignUp() {
     setState({ ...state, [name]: event.target.value });
   };
 
-  const sumbitHandler = async (event) => {
+  const submitHandler = async (event) => {
     event.preventDefault();
 
     cb('/auth/sign-up', { email: state.email, name: state.name });
@@ -64,7 +70,7 @@ export default function SignUp() {
         history.push('/');
       });
     }
-  }, [otpRes]);
+  }, [otpRes, history]);
 
   return (
     <Container component="main" maxWidth="xs">
@@ -81,7 +87,7 @@ export default function SignUp() {
             {err?.error}
           </Typography>
         )}
-        <form className={classes.form} noValidate={false} onSubmit={sumbitHandler}>
+        <form className={classes.form} noValidate={false} onSubmit={submitHandler}>
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <TextField
@@ -127,7 +133,7 @@ export default function SignUp() {
           </Button>
           <Grid container justify="flex-end">
             <Grid item>
-              <Link href="/sign-in" variant="body2">
+              <Link to="/sign-in" className={classes.link}>
                 Already have an account? Sign in
               </Link>
             </Grid>
@@ -139,7 +145,7 @@ export default function SignUp() {
             onChange={setOtp}
             error={!!otpErr?.otp}
             helperText={otpErr?.otp}
-            sumbitHandler={register}
+            submitHandler={register}
             err={otpErr?.error}
           />
         )}
