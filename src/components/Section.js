@@ -49,7 +49,7 @@ const Section = ({ title, data, viewAll, type }) => {
         {title}
       </Typography>
       <Grid container spacing={2}>
-        {data.map((d) => (
+        {data?.map((d) => (
           <Grid item key={d._id} xs={12} sm={6} md={4} lg={3}>
             <CourseCard
               title={d.name}
@@ -63,6 +63,7 @@ const Section = ({ title, data, viewAll, type }) => {
               video={d.video}
               id={d._id}
               type={type}
+              creatorId={d.creator._id}
             />
           </Grid>
         ))}

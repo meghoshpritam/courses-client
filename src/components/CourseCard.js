@@ -69,15 +69,17 @@ const CourseCard = ({
   const history = useHistory();
 
   return (
-    <Card className={classes.card} onClick={() => console.log('clicked')}>
-      <CardMedia
-        className={`${classes.cardMedia} ${classes.hover}`}
-        image={video ? getYTVideoThumbnail(video) : img}
-        title={`${title}-image`}
-        onClick={() => {
-          history.push(`/${type}/${id}`);
-        }}
-      />
+    <Card className={classes.card}>
+      {(img || video) && (
+        <CardMedia
+          className={`${classes.cardMedia} ${classes.hover}`}
+          image={video ? getYTVideoThumbnail(video) : img}
+          title={`${title}-image`}
+          onClick={() => {
+            history.push(`/view/${type}/${id}`);
+          }}
+        />
+      )}
       <CardContent className={classes.cardContent}>
         <Typography gutterBottom variant="h6" component="h3" className={classes.hover}>
           {title}
@@ -109,9 +111,15 @@ const CourseCard = ({
               <Typography variant="body1">
                 {price === 0 ? <strong>Free</strong> : <strong>&#8377; {price}</strong>}
               </Typography>
-              <Button size="small" color="primary" variant="outlined" onClick={payment}>
-                Enroll
-              </Button>
+              {localStorage.getItem('role') === 'admin' ? (
+                <Button size="small" color="primary" variant="outlined">
+                  Edit
+                </Button>
+              ) : (
+                <Button size="small" color="primary" variant="outlined" onClick={payment}>
+                  Enroll
+                </Button>
+              )}
             </div>
           </Grid>
         </Grid>
