@@ -144,8 +144,8 @@ export default function MenuAppBar() {
             {localStorage.getItem('accessToken') && (
               <ListItem
                 button
-                onClick={() => history.push('/my-profile')}
-                selected={location.pathname === '/my-profile'}
+                onClick={() => history.push('/profile/me')}
+                selected={location.pathname === '/profile/me'}
               >
                 <ListItemIcon>
                   <AccountCircle />
@@ -156,8 +156,8 @@ export default function MenuAppBar() {
             )}
             <ListItem
               button
-              onClick={() => history.push('/course/1')}
-              selected={location.pathname === '/course'}
+              onClick={() => history.push('/view-all/courses')}
+              selected={location.pathname === '/view-all/courses'}
             >
               <ListItemIcon>
                 <ClassIcon />
@@ -166,8 +166,8 @@ export default function MenuAppBar() {
             </ListItem>
             <ListItem
               button
-              onClick={() => history.push('/course/1')}
-              selected={location.pathname === '/course'}
+              onClick={() => history.push('/view-all/projects')}
+              selected={location.pathname === '/view-all/projects'}
             >
               <ListItemIcon>
                 <AssignmentIcon />
@@ -176,8 +176,8 @@ export default function MenuAppBar() {
             </ListItem>
             <ListItem
               button
-              onClick={() => history.push('/course/1')}
-              selected={location.pathname === '/course'}
+              onClick={() => history.push('/view-all/goals')}
+              selected={location.pathname === '/view-all/goals'}
             >
               <ListItemIcon>
                 <CategoryIcon />

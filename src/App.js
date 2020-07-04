@@ -41,10 +41,10 @@ function App() {
                 <Route path="/sign-up">
                   <SignUp />
                 </Route>
-                <Route path="/:type/:id">
+                <Route path="/view/:type/:id">
                   <Course />
                 </Route>
-                <Route path="/my-profile/:id">
+                <Route path="/profile/:id">
                   <Profile />
                 </Route>
                 <Route path="/about">
