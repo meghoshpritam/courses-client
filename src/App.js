@@ -16,6 +16,7 @@ import Profile from './pages/Profile';
 import About from './pages/About';
 import ViewAll from './pages/ViewAll';
 import AddItem from './pages/AddItem';
+import Help from './pages/Help';
 
 function App() {
   const loading = useSelector((state) => state.apiCall.loading);
@@ -48,6 +49,9 @@ function App() {
                 </Route>
                 <Route path="/about">
                   <About />
+                </Route>
+                <Route path="/help">
+                  <Help />
                 </Route>
                 <Route path="/view-all/:type">
                   <ViewAll />

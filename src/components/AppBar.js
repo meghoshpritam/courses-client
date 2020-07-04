@@ -213,8 +213,8 @@ export default function MenuAppBar() {
             </ListItem>
             <ListItem
               button
-              onClick={() => history.push('/course/1')}
-              selected={location.pathname === '/course'}
+              onClick={() => history.push('/help')}
+              selected={location.pathname === '/help'}
             >
               <ListItemIcon>
                 <HelpIcon />
