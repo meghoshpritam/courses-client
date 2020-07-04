@@ -10,6 +10,7 @@ import Section from '../components/Section';
 import useRpay from '../hooks/useRpay';
 import useGet from '../hooks/useGet';
 import Image from '../assets/images/image.svg';
+import CircleSpring from '../components/CircleSpring';
 
 const useStyles = makeStyles((theme) => ({
   icon: {
@@ -123,7 +124,7 @@ export default function Album() {
         </Container>
       </div>
       {/* End hero unit */}
-      {res ? (
+      {res && (
         <Container className={classes.cardGrid} maxWidth="lg" id="explore">
           <Section
             title="Top Courses"
@@ -141,11 +142,8 @@ export default function Album() {
             type="project"
           />
         </Container>
-      ) : (
-        <div className={classes.loading}>
-          <CircularProgress />
-        </div>
       )}
+      {!res && !err && <CircleSpring />}
     </main>
   );
 }
