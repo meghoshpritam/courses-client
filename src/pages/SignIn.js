@@ -47,24 +47,40 @@ export default function SignIn() {
   const [res, err, cb] = usePost();
   const [otp, setOtp] = useState('');
   const [otpRes, otpErr, otpCb] = usePost();
+  const [signOutAll, setSignOutAl] = useState(false);
+  const [otpDialog, setOtpDialog] = useState(false);
 
   useEffect(() => {
-    if (otpRes) {
+    if (signOutAll) {
+      setSignOutAl(false);
+      setOtp('');
+      setOtpDialog(false);
+    }
+    if (!signOutAll && otpRes) {
       const keys = Object.keys(otpRes);
       keys.forEach((key) => {
         localStorage.setItem(key, otpRes[key]);
+        setOtpDialog(false);
         history.push('/');
       });
     }
   }, [otpRes, history]);
 
-  const submitHandler = async (event) => {
+  const submitHandler = (event) => {
     event.preventDefault();
     cb('/auth/sign-in', { email });
+    setOtpDialog(true);
   };
 
-  const register = async () => {
-    otpCb('/auth/sign-in-otp-verify', { token: res.token, otp });
+  const signOutAllHandler = () => {
+    cb('/auth/sign-out-all', { email });
+    setSignOutAl(true);
+    setOtpDialog(true);
+  };
+
+  const register = () => {
+    if (signOutAll) otpCb('/auth/sign-out-all-otp-verify', { token: res.token, otp });
+    else otpCb('/auth/sign-in-otp-verify', { token: res.token, otp });
   };
 
   return (
@@ -108,6 +124,17 @@ export default function SignIn() {
           >
             Sign In
           </Button>
+          {err?.email === 'You can access your account from maximum 3 device!' && (
+            <Button
+              onClick={signOutAllHandler}
+              fullWidth
+              variant="contained"
+              color="secondary"
+              className={classes.submit}
+            >
+              Sign Out all
+            </Button>
+          )}
           <Grid container justify="flex-end">
             <Grid item>
               <Link to="/sign-up" className={classes.link}>
@@ -116,7 +143,7 @@ export default function SignIn() {
             </Grid>
           </Grid>
         </form>
-        {res && (
+        {res && otpDialog && (
           <OtpVerification
             value={otp}
             onChange={setOtp}
