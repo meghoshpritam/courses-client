@@ -18,6 +18,7 @@ import ViewAll from './pages/ViewAll';
 import AddItem from './pages/AddItem';
 import Help from './pages/Help';
 import Editor from './pages/Editor';
+import Admin from './pages/Admin';
 
 function App() {
   const loading = useSelector((state) => state.apiCall.loading);
@@ -64,6 +65,9 @@ function App() {
                     </Route>
                     <Route path="/editor">
                       <Editor />
+                    </Route>
+                    <Route path="/admin">
+                      <Admin />
                     </Route>
                   </>
                 )}

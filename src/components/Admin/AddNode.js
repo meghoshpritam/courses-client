@@ -4,6 +4,7 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import InputLabel from '@material-ui/core/InputLabel';
+import { useDispatch, useSelector } from 'react-redux';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
@@ -15,17 +16,27 @@ import IconButton from '@material-ui/core/IconButton';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import Collapse from '@material-ui/core/Collapse';
-import FileUpload from '../components/FileUpload';
 import EditIcon from '@material-ui/icons/Edit';
 import LaunchIcon from '@material-ui/icons/Launch';
 import { Button } from '@material-ui/core';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
+import DeleteIcon from '@material-ui/icons/Delete';
+import FileUpload from '../FileUpload';
+import Link from '@material-ui/core/Link';
+import {
+  setName,
+  setDescription,
+  setType,
+  setImg,
+  setVideo,
+  setMarkdown,
+  setQuiz,
+  setExam,
+  setAssignment,
+  addResource,
+} from '../../store/Slices/node';
 
 const useStyles = makeStyles((theme) => ({
-  // heroContent: {
-  //   backgroundColor: theme.palette.background.paper,
-  //   padding: theme.spacing(8, 0, 6),
-  // },
   formControl: {
     margin: theme.spacing(1),
     width: '100%',
@@ -38,11 +49,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function AddItem() {
+export default () => {
   const classes = useStyles();
-  const types = ['Node', 'Course', 'Goal', 'Project'];
-  const [type, setType] = useState('node');
-  const [state, setState] = useState({ name: '', description: '', img: '', video: '' });
+  const state = useSelector((s) => s.node);
+  const dispatch = useDispatch();
+  const [resource, setResource] = useState({ name: '', uri: '' });
   const [contentUpload, setContentUpload] = useState({
     image: '',
     imgBtn: false,
@@ -50,7 +61,7 @@ export default function AddItem() {
     videoImg: false,
   });
   const stateHandler = (name) => (event) => {
-    setState({ ...state, [name]: event.target.value });
+    // setState({ ...state, [name]: event.target.value });
   };
 
   const handleMouseDownPassword = (event) => {
@@ -63,7 +74,7 @@ export default function AddItem() {
       <Grid container spacing={1}>
         <Grid item xs={12}>
           <Typography component="h1" variant="h4" align="center" color="textPrimary" gutterBottom>
-            Add new
+            Add Node
           </Typography>
         </Grid>
         {/* <form> */}
@@ -73,14 +84,14 @@ export default function AddItem() {
             <Select
               labelId="type-label"
               id="type"
-              value={type}
-              onChange={(event) => setType(event.target.value)}
+              value={state.type}
+              required
+              onChange={(event) => dispatch(setType(event.target.value))}
               fullWidth
               label="Select Type"
             >
-              {types.map((t) => (
-                <MenuItem value={t.toLowerCase()}>{t}</MenuItem>
-              ))}
+              <MenuItem value="free">Free</MenuItem>
+              <MenuItem value="paid">Paid</MenuItem>
             </Select>
           </FormControl>
         </Grid>
@@ -92,7 +103,7 @@ export default function AddItem() {
             required
             fullWidth
             value={state.name}
-            onChange={stateHandler('name')}
+            onChange={(event) => dispatch(setName(event.target.value))}
             className={classes.formControl}
           />
         </Grid>
@@ -103,8 +114,8 @@ export default function AddItem() {
             required
             fullWidth
             variant="outlined"
-            value={state.name}
-            onChange={stateHandler('description')}
+            value={state.description}
+            onChange={(event) => dispatch(setDescription(event.target.value))}
             className={classes.formControl}
           />
         </Grid>
@@ -114,7 +125,7 @@ export default function AddItem() {
             <OutlinedInput
               id="image"
               value={state.img}
-              onChange={stateHandler('img')}
+              onChange={(event) => dispatch(setImg(event.target.value))}
               endAdornment={
                 // eslint-disable-next-line react/jsx-wrap-multilines
                 <InputAdornment position="end">
@@ -135,7 +146,7 @@ export default function AddItem() {
           </FormControl>
         </Grid>
         <Collapse in={contentUpload.imgBtn} timeout="auto" unmountOnExit>
-          <Grid item xs={12} sm={6}>
+          <Grid item xs={12}>
             <FileUpload />
           </Grid>
         </Collapse>
@@ -145,7 +156,7 @@ export default function AddItem() {
             <OutlinedInput
               id="video"
               value={state.video}
-              onChange={stateHandler('video')}
+              onChange={(event) => dispatch(setVideo(event.target.value))}
               endAdornment={
                 // eslint-disable-next-line react/jsx-wrap-multilines
                 <InputAdornment position="end">
@@ -166,7 +177,7 @@ export default function AddItem() {
           </FormControl>
         </Grid>
         <Collapse in={contentUpload.videoBtn} timeout="auto" unmountOnExit>
-          <Grid item xs={12} sm={6}>
+          <Grid item xs={12}>
             <FileUpload />
           </Grid>
         </Collapse>
@@ -176,7 +187,7 @@ export default function AddItem() {
             <OutlinedInput
               id="markdown"
               value={state.markdown}
-              onChange={stateHandler('video')}
+              onChange={(event) => dispatch(setMarkdown(event.target.value))}
               endAdornment={
                 // eslint-disable-next-line react/jsx-wrap-multilines
                 <InputAdornment position="end">
@@ -196,13 +207,47 @@ export default function AddItem() {
             />
           </FormControl>
         </Grid>
+        <Grid item xs={12}>
+          {/* {state.resource.map(res=>(
+            <G
+          ))} */}
+          <Grid container spacing={2} style={{ paddingLeft: '5', paddingRight: '5' }}>
+            {state.resources.map((res, idx) => (
+              <Grid item xs={12} sm={6} key={res.name}>
+                <Grid container spacing={2}>
+                  <Grid item xs={1}>
+                    <IconButton>
+                      <EditIcon />
+                    </IconButton>
+                  </Grid>
+                  <Grid
+                    item
+                    xs={10}
+                    style={{
+                      paddingTop: 20,
+                      paddingLeft: 20,
+                      wordWrap: 'break-word',
+                    }}
+                  >
+                    <Link href={res.uri}>{res.name}</Link>
+                  </Grid>
+                  <Grid item xs={1}>
+                    <IconButton>
+                      <DeleteIcon color="error" />
+                    </IconButton>
+                  </Grid>
+                </Grid>
+              </Grid>
+            ))}
+          </Grid>
+        </Grid>
         <Grid item xs={12} sm={6}>
           <TextField
             id="resources-name"
             label="Resources Name"
             variant="outlined"
-            // value={state.resources}
-            // onChange={stateHandler('resources')}
+            value={resource.name}
+            onChange={(e) => setResource({ ...resource, name: e.target.value })}
             className={classes.formControl}
           />
         </Grid>
@@ -211,8 +256,8 @@ export default function AddItem() {
             <InputLabel htmlFor="resource-link">Resource Link</InputLabel>
             <OutlinedInput
               id="resource-link"
-              value={state.video}
-              onChange={stateHandler('resourceLink')}
+              value={resource.uri}
+              onChange={(e) => setResource({ ...resource, uri: e.target.value })}
               endAdornment={
                 // eslint-disable-next-line react/jsx-wrap-multilines
                 <InputAdornment position="end">
@@ -238,10 +283,15 @@ export default function AddItem() {
         <Grid
           item
           xs={2}
-          md={1}
-          style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}
+          sm={1}
+          // style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}
         >
-          <IconButton>
+          <IconButton
+            onClick={() => {
+              dispatch(addResource({ name: resource.name, uri: resource.uri }));
+              setResource({ name: '', uri: '' });
+            }}
+          >
             <AddCircleIcon color="secondary" fontSize="large" />
           </IconButton>
         </Grid>
@@ -266,8 +316,8 @@ export default function AddItem() {
             <InputLabel htmlFor="quiz">Quiz Link</InputLabel>
             <OutlinedInput
               id="quiz"
-              value={state.exam}
-              onChange={stateHandler('video')}
+              value={state.quiz}
+              onChange={(event) => dispatch(setQuiz(event.target.value))}
               endAdornment={
                 // eslint-disable-next-line react/jsx-wrap-multilines
                 <InputAdornment position="end">
@@ -293,7 +343,7 @@ export default function AddItem() {
             <OutlinedInput
               id="exam"
               value={state.exam}
-              onChange={stateHandler('video')}
+              onChange={(event) => dispatch(setExam(event.target.value))}
               endAdornment={
                 // eslint-disable-next-line react/jsx-wrap-multilines
                 <InputAdornment position="end">
@@ -319,11 +369,11 @@ export default function AddItem() {
             label="Assignment Link"
             variant="outlined"
             value={state.assignment}
-            onChange={stateHandler('assignment')}
+            onChange={(event) => dispatch(setAssignment(event.target.value))}
             className={classes.formControl}
           />
         </Grid>
-        <Grid item xs={12} md={6}>
+        <Grid item xs={12} sm={6}>
           <Button color="primary" variant="contained" className={classes.submit} fullWidth>
             Add a new Node
           </Button>
@@ -332,4 +382,4 @@ export default function AddItem() {
       </Grid>
     </Container>
   );
-}
+};
