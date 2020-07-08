@@ -17,6 +17,7 @@ import About from './pages/About';
 import ViewAll from './pages/ViewAll';
 import AddItem from './pages/AddItem';
 import Help from './pages/Help';
+import Editor from './pages/Editor';
 
 function App() {
   const loading = useSelector((state) => state.apiCall.loading);
@@ -57,9 +58,14 @@ function App() {
                   <ViewAll />
                 </Route>
                 {localStorage.getItem('role') === 'admin' && (
-                  <Route path="/add-course">
-                    <AddItem />
-                  </Route>
+                  <>
+                    <Route path="/add-course">
+                      <AddItem />
+                    </Route>
+                    <Route path="/editor">
+                      <Editor />
+                    </Route>
+                  </>
                 )}
                 <Route path="/unauthorized">
                   <UnAuthorized />

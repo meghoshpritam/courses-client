@@ -32,6 +32,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'block',
     background: '#cecece',
     padding: theme.spacing(1),
+    fontSize: 25,
     borderRadius: '50%',
     '&:hover': {
       cursor: 'pointer',

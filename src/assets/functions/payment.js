@@ -19,54 +19,59 @@ export default async () => {
   }
   console.log('print', res?.data);
 
-  const verifyPayment = async ({ paymentId, orderId, signature, token }) => {
-    try {
-      const response = await axios.post(
-        '/student/verify-order',
-        { token, paymentId, orderId, signature },
-        {
-          headers: {
-            authorization: localStorage.getItem('accessToken'),
-          },
-        }
-      );
-      return response.data;
-    } catch (err) {
-      return err?.response;
-    }
-  };
+  console.log('status: ', res.status);
+  if (res.status === 201) {
+    console.log('enrolled');
+  } else {
+    const verifyPayment = async ({ paymentId, orderId, signature, token }) => {
+      try {
+        const response = await axios.post(
+          '/student/verify-order',
+          { token, paymentId, orderId, signature },
+          {
+            headers: {
+              authorization: localStorage.getItem('accessToken'),
+            },
+          }
+        );
+        return response.data;
+      } catch (err) {
+        return err?.response;
+      }
+    };
 
-  const option = {
-    key: 'rzp_test_E5IMZYa1Ag0kzr',
-    amount: res.data.data.amount,
-    currency: res.data.data.currency,
-    name: 'Acme Corp',
-    description: 'Test Transaction',
-    image: 'https://example.com/your_logo',
-    order_id: res.data.data.id,
-    handler(response) {
-      verifyPayment({
-        token: res.data.token,
-        paymentId: response.razorpay_payment_id,
-        orderId: response.razorpay_order_id,
-        signature: response.razorpay_signature,
-      })
-        .then((r) => {
-          console.log(('payment success: ', r));
+    const option = {
+      key: 'rzp_test_E5IMZYa1Ag0kzr',
+      amount: res.data.data.amount,
+      currency: res.data.data.currency,
+      name: 'Acme Corp',
+      description: 'Test Transaction',
+      image: 'https://example.com/your_logo',
+      order_id: res.data.data.id,
+      handler(response) {
+        verifyPayment({
+          token: res.data.token,
+          paymentId: response.razorpay_payment_id,
+          orderId: response.razorpay_order_id,
+          signature: response.razorpay_signature,
         })
-        .catch((e) => {
-          console.log('payment failed: ', e);
-        });
-    },
-    prefill: {
-      name: 'Gaurav Kumar',
-    },
-  };
-  try {
-    const rPay = new window.Razorpay(option);
+          .then((r) => {
+            console.log(('payment success: ', r));
+          })
+          .catch((e) => {
+            console.log('payment failed: ', e);
+          });
+      },
+      prefill: {
+        name: 'Gaurav Kumar',
+      },
+    };
+    try {
+      const rPay = new window.Razorpay(option);
 
-    rPay.open();
-  } catch (err) {
-    console.log('rPayErr', err);
+      rPay.open();
+    } catch (err) {
+      console.log('rPayErr', err);
+    }
   }
 };
