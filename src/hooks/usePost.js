@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
-import { setError, setLoading, setSuccess, reset } from '../store/Slices/apiCall';
+import { setError, setLoading, setSuccess } from '../store/Slices/apiCall';
 import { format } from '../assets/functions/errorFormat';
 
 export default () => {

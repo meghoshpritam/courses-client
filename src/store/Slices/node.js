@@ -11,7 +11,7 @@ const initStage = {
   quiz: '',
   exam: '',
   assignment: '',
-  type: '',
+  type: 'free',
 };
 
 export const nodeSlice = createSlice({
@@ -48,15 +48,21 @@ export const nodeSlice = createSlice({
       state.type = action.payload;
     },
     addResource: (state, action) => {
-      state.resources.push({ name: action.payload.name, uri: action.payload.uri });
+      state.resources.push({
+        name: action.payload.name,
+        uri: action.payload.uri,
+        id: new Date().toString(),
+      });
     },
     deleteResource: (state, action) => {
-      state.resources = [...state.resources.filter((res, id) => id === action.id)];
+      state.resources = [...state.resources.filter((res) => res.id !== action.payload.id)];
     },
     updateResource: (state, action) => {
       state.resources = [
-        ...state.resources.map((res, idx) =>
-          idx === action.payload.id ? { name: action.payload.name, uri: action.payload.uri } : res
+        ...state.resources.map((res) =>
+          res.id === action.payload.id
+            ? { name: action.payload.name, uri: action.payload.uri, id: action.payload.id }
+            : res
         ),
       ];
     },

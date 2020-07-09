@@ -6,7 +6,7 @@ export default () => {
   return (
     <SunEditor
       setOptions={{
-        height: 'auto',
+        height: '90vh',
         buttonList: buttonList.complex,
         callBackSave: (e) => {
           console.log('.cakk', e);

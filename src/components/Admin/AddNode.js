@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-curly-newline */
 import React, { useState } from 'react';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
@@ -6,7 +7,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import InputLabel from '@material-ui/core/InputLabel';
 import { useDispatch, useSelector } from 'react-redux';
 import MenuItem from '@material-ui/core/MenuItem';
-import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import TextField from '@material-ui/core/TextField';
@@ -21,8 +21,8 @@ import LaunchIcon from '@material-ui/icons/Launch';
 import { Button } from '@material-ui/core';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import DeleteIcon from '@material-ui/icons/Delete';
-import FileUpload from '../FileUpload';
 import Link from '@material-ui/core/Link';
+import FileUpload from '../FileUpload';
 import {
   setName,
   setDescription,
@@ -34,6 +34,7 @@ import {
   setExam,
   setAssignment,
   addResource,
+  deleteResource,
 } from '../../store/Slices/node';
 
 const useStyles = makeStyles((theme) => ({
@@ -60,9 +61,6 @@ export default () => {
     video: '',
     videoImg: false,
   });
-  const stateHandler = (name) => (event) => {
-    // setState({ ...state, [name]: event.target.value });
-  };
 
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
@@ -145,11 +143,37 @@ export default () => {
             />
           </FormControl>
         </Grid>
-        <Collapse in={contentUpload.imgBtn} timeout="auto" unmountOnExit>
+        <Collapse in={contentUpload.imgBtn} timeout="auto" unmountOnExit style={{ width: '100%' }}>
           <Grid item xs={12}>
-            <FileUpload />
+            <FileUpload type="image" />
           </Grid>
         </Collapse>
+        <Grid item xs={12} sm={6}>
+          <FormControl className={classes.formControl} variant="outlined">
+            <InputLabel htmlFor="markdown">Detail Description Link</InputLabel>
+            <OutlinedInput
+              id="markdown"
+              value={state.markdown}
+              onChange={(event) => dispatch(setMarkdown(event.target.value))}
+              endAdornment={
+                // eslint-disable-next-line react/jsx-wrap-multilines
+                <InputAdornment position="end">
+                  <IconButton
+                    aria-label="toggle video upload visibility"
+                    onClick={() => {
+                      window.open('/editor', '_blank');
+                    }}
+                    onMouseDown={handleMouseDownPassword}
+                    edge="end"
+                  >
+                    <LaunchIcon />
+                  </IconButton>
+                </InputAdornment>
+              }
+              labelWidth={165}
+            />
+          </FormControl>
+        </Grid>
         <Grid item xs={12} sm={6}>
           <FormControl className={classes.formControl} variant="outlined">
             <InputLabel htmlFor="video">Video Link</InputLabel>
@@ -176,47 +200,39 @@ export default () => {
             />
           </FormControl>
         </Grid>
-        <Collapse in={contentUpload.videoBtn} timeout="auto" unmountOnExit>
+        <Collapse
+          in={contentUpload.videoBtn}
+          timeout="auto"
+          unmountOnExit
+          style={{ width: '100%' }}
+        >
           <Grid item xs={12}>
-            <FileUpload />
+            <FileUpload type="video" />
           </Grid>
         </Collapse>
-        <Grid item xs={12} sm={6}>
-          <FormControl className={classes.formControl} variant="outlined">
-            <InputLabel htmlFor="markdown">Detail Description Link</InputLabel>
-            <OutlinedInput
-              id="markdown"
-              value={state.markdown}
-              onChange={(event) => dispatch(setMarkdown(event.target.value))}
-              endAdornment={
-                // eslint-disable-next-line react/jsx-wrap-multilines
-                <InputAdornment position="end">
-                  <IconButton
-                    aria-label="toggle video upload visibility"
-                    onClick={() => {
-                      // setContentUpload({ ...contentUpload, videoBtn: !contentUpload.videoBtn })
-                    }}
-                    onMouseDown={handleMouseDownPassword}
-                    edge="end"
-                  >
-                    <EditIcon />
-                  </IconButton>
-                </InputAdornment>
-              }
-              labelWidth={165}
-            />
-          </FormControl>
-        </Grid>
         <Grid item xs={12}>
           {/* {state.resource.map(res=>(
             <G
           ))} */}
           <Grid container spacing={2} style={{ paddingLeft: '5', paddingRight: '5' }}>
-            {state.resources.map((res, idx) => (
-              <Grid item xs={12} sm={6} key={res.name}>
+            {state.resources.map((res) => (
+              <Grid item xs={12} sm={6} key={res.id}>
                 <Grid container spacing={2}>
                   <Grid item xs={1}>
-                    <IconButton>
+                    <IconButton
+                      onClick={() => {
+                        for (let idx = 0; idx < state.resources.length; idx += 1) {
+                          if (res.id === state.resources[idx].id) {
+                            setResource({
+                              name: state.resources[idx].name,
+                              uri: state.resources[idx].uri,
+                            });
+                            dispatch(deleteResource({ id: res.id }));
+                            break;
+                          }
+                        }
+                      }}
+                    >
                       <EditIcon />
                     </IconButton>
                   </Grid>
@@ -232,7 +248,7 @@ export default () => {
                     <Link href={res.uri}>{res.name}</Link>
                   </Grid>
                   <Grid item xs={1}>
-                    <IconButton>
+                    <IconButton onClick={() => dispatch(deleteResource({ id: res.id }))}>
                       <DeleteIcon color="error" />
                     </IconButton>
                   </Grid>
@@ -280,12 +296,7 @@ export default () => {
             />
           </FormControl>
         </Grid>
-        <Grid
-          item
-          xs={2}
-          sm={1}
-          // style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}
-        >
+        <Grid item xs={2} sm={1}>
           <IconButton
             onClick={() => {
               dispatch(addResource({ name: resource.name, uri: resource.uri }));
@@ -300,17 +311,6 @@ export default () => {
             <FileUpload />
           </Grid>
         </Collapse>
-        {/* <Grid item xs={12} sm={6}>
-          <TextField
-            id="resources-link"
-            label="Resources Link"
-            variant="outlined"
-            // value={state.resources}
-            // onChange={stateHandler('resources')}
-            className={classes.formControl}
-          />
-        </Grid> */}
-
         <Grid item xs={12} sm={6}>
           <FormControl className={classes.formControl} variant="outlined">
             <InputLabel htmlFor="quiz">Quiz Link</InputLabel>
@@ -324,7 +324,7 @@ export default () => {
                   <IconButton
                     aria-label="toggle video upload visibility"
                     onClick={() => {
-                      // setContentUpload({ ...contentUpload, videoBtn: !contentUpload.videoBtn })
+                      window.open('https://forms.google.com', '_blank');
                     }}
                     onMouseDown={handleMouseDownPassword}
                     edge="end"
@@ -350,7 +350,7 @@ export default () => {
                   <IconButton
                     aria-label="toggle video upload visibility"
                     onClick={() => {
-                      // setContentUpload({ ...contentUpload, videoBtn: !contentUpload.videoBtn })
+                      window.open('https://forms.google.com', '_blank');
                     }}
                     onMouseDown={handleMouseDownPassword}
                     edge="end"
