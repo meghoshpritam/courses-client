@@ -8,6 +8,7 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Box from '@material-ui/core/Box';
 import AddNode from '../components/Admin/AddNode';
+import ViewNodes from '../components/Admin/ViewNodes';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -48,7 +49,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function ScrollableTabsButtonAuto() {
   const classes = useStyles();
-  const [value, setValue] = React.useState(1);
+  const [value, setValue] = React.useState(0);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -74,8 +75,9 @@ export default function ScrollableTabsButtonAuto() {
         <Tab label="View Exams" {...a11yProps(6)} />
         <Tab label="View Teachers" {...a11yProps(7)} />
       </Tabs>
+
       <TabPanel value={value} index={0}>
-        Item One
+        <ViewNodes />
       </TabPanel>
       <TabPanel value={value} index={1}>
         <AddNode />
