@@ -6,7 +6,6 @@ import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import AddNode from '../components/Admin/AddNode';
 
@@ -73,8 +72,7 @@ export default function ScrollableTabsButtonAuto() {
         <Tab label="View Projects" {...a11yProps(4)} />
         <Tab label="Add Project" {...a11yProps(5)} />
         <Tab label="View Exams" {...a11yProps(6)} />
-        <Tab label="Add Exam" {...a11yProps(7)} />
-        <Tab label="View Teachers" {...a11yProps(8)} />
+        <Tab label="View Teachers" {...a11yProps(7)} />
       </Tabs>
       <TabPanel value={value} index={0}>
         Item One
@@ -99,9 +97,6 @@ export default function ScrollableTabsButtonAuto() {
       </TabPanel>
       <TabPanel value={value} index={7}>
         SE
-      </TabPanel>
-      <TabPanel value={value} index={8}>
-        Eight
       </TabPanel>
     </div>
   );

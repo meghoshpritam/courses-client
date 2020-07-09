@@ -19,6 +19,7 @@ import Collapse from '@material-ui/core/Collapse';
 import EditIcon from '@material-ui/icons/Edit';
 import LaunchIcon from '@material-ui/icons/Launch';
 import { Button } from '@material-ui/core';
+import FormHelperText from '@material-ui/core/FormHelperText';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import DeleteIcon from '@material-ui/icons/Delete';
 import Link from '@material-ui/core/Link';
@@ -35,6 +36,7 @@ import {
   setAssignment,
   addResource,
   deleteResource,
+  reset,
 } from '../../store/Slices/node';
 import usePost from '../../hooks/usePost';
 
@@ -67,6 +69,7 @@ export default () => {
     video: '',
     videoImg: false,
   });
+  const [success, setSuccess] = useState(false);
 
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
@@ -82,7 +85,7 @@ export default () => {
       img: state.img,
       video: state.video,
       markdown: state.markdown,
-      resources: state.resources,
+      resources: [...state.resources],
       quiz: state.quiz,
       exam: state.exam,
       assignment: state.assignment,
@@ -90,12 +93,21 @@ export default () => {
   };
 
   useEffect(() => {
-    console.log('res...', response);
+    if (response) {
+      setSuccess(true);
+
+      window.setTimeout(() => {
+        setSuccess(false);
+        dispatch(reset());
+        setResource({ name: '', uri: '' });
+      }, 1000);
+    }
   }, [response]);
 
   useEffect(() => {
     console.log('error', error);
   }, [error]);
+
   return (
     <Container component="main" maxWidth="md">
       <Grid container spacing={1}>
@@ -105,10 +117,15 @@ export default () => {
           </Typography>
         </Grid>
         <Grid item xs={12}>
+          {success && (
+            <Typography color="primary" align="center">
+              Node added successfully :)
+            </Typography>
+          )}
           <form className={classes.form} noValidate={false} onSubmit={submitHandler}>
             <Grid container spacing={1}>
               <Grid item xs={12} sm={6}>
-                <FormControl variant="outlined" className={classes.formControl}>
+                <FormControl variant="outlined" className={classes.formControl} error={error?.type}>
                   <InputLabel id="type-label">Select Type</InputLabel>
                   <Select
                     labelId="type-label"
@@ -122,6 +139,7 @@ export default () => {
                     <MenuItem value="free">Free</MenuItem>
                     <MenuItem value="paid">Paid</MenuItem>
                   </Select>
+                  {error?.type && <FormHelperText>{error?.type}</FormHelperText>}
                 </FormControl>
               </Grid>
               <Grid item xs={12} sm={6}>
@@ -134,6 +152,8 @@ export default () => {
                   value={state.name}
                   onChange={(event) => dispatch(setName(event.target.value))}
                   className={classes.formControl}
+                  error={error?.name}
+                  helperText={error?.name}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
@@ -146,10 +166,12 @@ export default () => {
                   value={state.description}
                   onChange={(event) => dispatch(setDescription(event.target.value))}
                   className={classes.formControl}
+                  error={error?.description}
+                  helperText={error?.description}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
-                <FormControl className={classes.formControl} variant="outlined">
+                <FormControl className={classes.formControl} variant="outlined" error={error?.img}>
                   <InputLabel htmlFor="image">Image Link</InputLabel>
                   <OutlinedInput
                     id="image"
@@ -172,6 +194,7 @@ export default () => {
                     }
                     labelWidth={85}
                   />
+                  {error?.img && <FormHelperText>{error?.img}</FormHelperText>}
                 </FormControl>
               </Grid>
               <Collapse
@@ -185,7 +208,11 @@ export default () => {
                 </Grid>
               </Collapse>
               <Grid item xs={12} sm={6}>
-                <FormControl className={classes.formControl} variant="outlined">
+                <FormControl
+                  className={classes.formControl}
+                  variant="outlined"
+                  error={error?.markdown}
+                >
                   <InputLabel htmlFor="markdown">Detail Description Link</InputLabel>
                   <OutlinedInput
                     id="markdown"
@@ -208,10 +235,15 @@ export default () => {
                     }
                     labelWidth={165}
                   />
+                  {error?.markdown && <FormHelperText>{error?.markdown}</FormHelperText>}
                 </FormControl>
               </Grid>
               <Grid item xs={12} sm={6}>
-                <FormControl className={classes.formControl} variant="outlined">
+                <FormControl
+                  className={classes.formControl}
+                  variant="outlined"
+                  error={error?.video}
+                >
                   <InputLabel htmlFor="video">Video Link</InputLabel>
                   <OutlinedInput
                     id="video"
@@ -237,6 +269,7 @@ export default () => {
                     }
                     labelWidth={85}
                   />
+                  {error?.video && <FormHelperText>{error?.video}</FormHelperText>}
                 </FormControl>
               </Grid>
               <Collapse
@@ -250,6 +283,11 @@ export default () => {
                 </Grid>
               </Collapse>
               <Grid item xs={12}>
+                {error?.resources && (
+                  <Typography color="error" align="center">
+                    {error?.resources}
+                  </Typography>
+                )}
                 <Grid container spacing={2} style={{ paddingLeft: '5', paddingRight: '5' }}>
                   {state.resources.map((res) => (
                     <Grid item xs={12} sm={6} key={res.id}>
@@ -353,7 +391,7 @@ export default () => {
                 </Grid>
               </Collapse>
               <Grid item xs={12} sm={6}>
-                <FormControl className={classes.formControl} variant="outlined">
+                <FormControl className={classes.formControl} variant="outlined" error={error?.quiz}>
                   <InputLabel htmlFor="quiz">Quiz Link</InputLabel>
                   <OutlinedInput
                     id="quiz"
@@ -376,10 +414,11 @@ export default () => {
                     }
                     labelWidth={70}
                   />
+                  {error?.quiz && <FormHelperText>{error?.quiz}</FormHelperText>}
                 </FormControl>
               </Grid>
               <Grid item xs={12} sm={6}>
-                <FormControl className={classes.formControl} variant="outlined">
+                <FormControl className={classes.formControl} variant="outlined" error={error?.exam}>
                   <InputLabel htmlFor="exam">Exam Link</InputLabel>
                   <OutlinedInput
                     id="exam"
@@ -402,6 +441,7 @@ export default () => {
                     }
                     labelWidth={80}
                   />
+                  {error?.exam && <FormHelperText>{error?.exam}</FormHelperText>}
                 </FormControl>
               </Grid>
               <Grid item xs={12} sm={6}>
@@ -412,6 +452,8 @@ export default () => {
                   value={state.assignment}
                   onChange={(event) => dispatch(setAssignment(event.target.value))}
                   className={classes.formControl}
+                  error={error?.assignment}
+                  helperText={error?.assignment}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>

@@ -67,7 +67,10 @@ export const nodeSlice = createSlice({
       ];
     },
     reset: (state) => {
-      state = { ...initStage };
+      const keys = Object.keys(initStage);
+      keys.forEach((key) => {
+        state[key] = initStage[key];
+      });
     },
   },
 });
@@ -85,6 +88,7 @@ export const {
   addResource,
   updateResource,
   deleteResource,
+  reset,
 } = nodeSlice.actions;
 
 export const selectNode = (state) => state.ApiCall;
