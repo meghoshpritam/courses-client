@@ -58,19 +58,15 @@ function App() {
                 <Route path="/view-all/:type">
                   <ViewAll />
                 </Route>
-                {localStorage.getItem('role') === 'admin' && (
-                  <>
-                    <Route path="/add-course">
-                      <AddItem />
-                    </Route>
-                    <Route path="/editor">
-                      <Editor />
-                    </Route>
-                    <Route path="/admin">
-                      <Admin />
-                    </Route>
-                  </>
-                )}
+                <Route path="/add-course">
+                  {localStorage.getItem('role') === 'admin' ? <AddItem /> : <NotFound />}
+                </Route>
+                <Route path="/editor">
+                  {localStorage.getItem('role') === 'admin' ? <Editor /> : <NotFound />}
+                </Route>
+                <Route path="/admin">
+                  {localStorage.getItem('role') === 'admin' ? <Admin /> : <NotFound />}
+                </Route>
                 <Route path="/unauthorized">
                   <UnAuthorized />
                 </Route>
