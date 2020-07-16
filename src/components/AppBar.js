@@ -21,9 +21,9 @@ import ClassIcon from '@material-ui/icons/Class';
 import AssignmentIcon from '@material-ui/icons/Assignment';
 import CategoryIcon from '@material-ui/icons/Category';
 import HelpIcon from '@material-ui/icons/Help';
+import DashboardIcon from '@material-ui/icons/Dashboard';
 import { Divider, Button } from '@material-ui/core';
 import BugReportIcon from '@material-ui/icons/BugReport';
-import NoteAddIcon from '@material-ui/icons/NoteAdd';
 import usePost from '../hooks/usePost';
 
 const useStyles = makeStyles((theme) => ({
@@ -190,13 +190,13 @@ export default function MenuAppBar() {
                 <Divider />
                 <ListItem
                   button
-                  onClick={() => history.push('/add-course')}
-                  selected={location.pathname === '/add-course'}
+                  onClick={() => history.push('/admin')}
+                  selected={location.pathname === '/admin'}
                 >
                   <ListItemIcon>
-                    <NoteAddIcon />
+                    <DashboardIcon />
                   </ListItemIcon>
-                  <ListItemText primary="Add Course" />
+                  <ListItemText primary="Admin Panel" />
                 </ListItem>
               </>
             )}

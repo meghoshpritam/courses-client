@@ -58,14 +58,11 @@ function App() {
                 <Route path="/view-all/:type">
                   <ViewAll />
                 </Route>
-                <Route path="/add-course">
-                  {localStorage.getItem('role') === 'admin' ? <AddItem /> : <NotFound />}
-                </Route>
                 <Route path="/editor">
                   {localStorage.getItem('role') === 'admin' ? <Editor /> : <NotFound />}
                 </Route>
                 <Route path="/admin">
-                  {localStorage.getItem('role') === 'admin' ? <Admin /> : <NotFound />}
+                  {localStorage.getItem('role') min /> : <NotFound />}
                 </Route>
                 <Route path="/unauthorized">
                   <UnAuthorized />
