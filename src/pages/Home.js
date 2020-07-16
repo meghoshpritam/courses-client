@@ -105,15 +105,17 @@ export default function Album() {
                       Explore the courses
                     </Button>
                   </Grid>
+
                   <Grid item>
                     <Button
                       variant="outlined"
                       color="primary"
                       onClick={() => {
-                        history.push('/sign-up');
+                        if (!localStorage.getItem('role')) history.push('/sign-up');
+                        else history.push('/profile/me');
                       }}
                     >
-                      Join to our community now
+                      {!localStorage.getItem('role') ? `Join to our community now` : `my account`}
                     </Button>
                   </Grid>
                 </Grid>
