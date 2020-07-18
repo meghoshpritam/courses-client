@@ -62,7 +62,7 @@ function App() {
                   {localStorage.getItem('role') === 'admin' ? <Editor /> : <NotFound />}
                 </Route>
                 <Route path="/admin">
-                  {localStorage.getItem('role') min /> : <NotFound />}
+                  {localStorage.getItem('role') ? <Admin /> : <NotFound />}
                 </Route>
                 <Route path="/unauthorized">
                   <UnAuthorized />
