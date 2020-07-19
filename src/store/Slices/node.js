@@ -2,6 +2,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initStage = {
+  id: '',
   name: '',
   description: '',
   img: '',
@@ -20,6 +21,19 @@ export const nodeSlice = createSlice({
     ...initStage,
   },
   reducers: {
+    setNode: (state, action) => {
+      state.name = action.payload.name;
+      state.description = action.payload.description;
+      state.img = action.payload.img;
+      state.video = action.payload.video;
+      state.markdown = action.payload.markdown;
+      state.resources = action.payload.resources || [];
+      state.quiz = action.payload.quiz;
+      state.exam = action.payload.exam;
+      state.assignment = action.payload.assignment;
+      state.type = action.payload.type;
+      state.id = action.payload.id;
+    },
     setName: (state, action) => {
       state.name = action.payload;
     },
@@ -89,6 +103,7 @@ export const {
   updateResource,
   deleteResource,
   reset,
+  setNode,
 } = nodeSlice.actions;
 
 export const selectNode = (state) => state.ApiCall;

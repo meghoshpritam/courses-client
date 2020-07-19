@@ -6,5 +6,5 @@ export const toDate = (date) => {
 };
 
 export const getYTVideoThumbnail = (url) => {
-  return `https://img.youtube.com/vi/${url.split('=')[1]}/0.jpg`;
+  return `https://img.youtube.com/vi/${url.split('?v=')[1].split('&')[0]}/0.jpg`;
 };

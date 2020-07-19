@@ -1,14 +1,14 @@
 /* eslint-disable no-underscore-dangle */
 import React from 'react';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
+import { useSelector } from 'react-redux';
 import CircleSpring from '../CircleSpring';
 import NodeCard from './NodeCard';
-import { useSelector } from 'react-redux';
 
-const ViewNodes = () => {
+const ViewNodes = ({ switchToAddNode }) => {
   const nodes = useSelector((state) => state.nodes);
 
   return (
@@ -33,6 +33,7 @@ const ViewNodes = () => {
               {nodes.nodes?.map((node) => (
                 <Grid item key={node._id} xs={12} sm={6} md={4} lg={3}>
                   <NodeCard
+                    switchToAddNode={switchToAddNode}
                     title={node.name}
                     description={node.description}
                     img={node.img}
@@ -54,7 +55,7 @@ const ViewNodes = () => {
   );
 };
 
-ViewNodes.propTypes = {};
+ViewNodes.propTypes = { switchToAddNode: PropTypes.func.isRequired };
 
 ViewNodes.defaultProps = {};
 

@@ -112,9 +112,14 @@ const CourseCard = ({
                 {price === 0 ? <strong>Free</strong> : <strong>&#8377; {price}</strong>}
               </Typography>
               {localStorage.getItem('role') === 'admin' ? (
-                <Button size="small" color="primary" variant="outlined">
-                  Edit
-                </Button>
+                <>
+                  <Button size="small" color="secondary" variant="outlined">
+                    Delete
+                  </Button>
+                  <Button size="small" color="primary" variant="outlined">
+                    Edit
+                  </Button>
+                </>
               ) : (
                 <Button size="small" color="primary" variant="outlined" onClick={payment}>
                   Enroll

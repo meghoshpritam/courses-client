@@ -50,6 +50,9 @@ import {
 import ViewCourses from '../components/Admin/ViewCourses';
 import ViewGoals from '../components/Admin/ViewGoals';
 import ViewProjects from '../components/Admin/ViewProjects';
+import AddCourse from '../components/Admin/AddCourse';
+import AddProject from '../components/Admin/AddProject';
+import AddGoal from '../components/Admin/AddGoal';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -159,7 +162,7 @@ export default function ScrollableTabsButtonAuto() {
       </Tabs>
 
       <TabPanel value={value} index={0}>
-        <ViewNodes />
+        <ViewNodes switchToAddNode={() => setValue(1)} />
       </TabPanel>
       <TabPanel value={value} index={1}>
         <AddNode />
@@ -168,28 +171,28 @@ export default function ScrollableTabsButtonAuto() {
         <ViewCourses />
       </TabPanel>
       <TabPanel value={value} index={3}>
-        Item Four
+        <AddCourse />
       </TabPanel>
       <TabPanel value={value} index={4}>
         <ViewProjects />
       </TabPanel>
       <TabPanel value={value} index={5}>
-        Item Six
+        <AddProject />
       </TabPanel>
       <TabPanel value={value} index={6}>
         <ViewGoals />
       </TabPanel>
       <TabPanel value={value} index={7}>
-        SE
+        <AddGoal />
       </TabPanel>
       <TabPanel value={value} index={8}>
-        SE1
+        No exams to show
       </TabPanel>
       <TabPanel value={value} index={9}>
-        SE2
+        No assignments to show
       </TabPanel>
       <TabPanel value={value} index={10}>
-        SE3
+        No teacher to show
       </TabPanel>
     </div>
   );

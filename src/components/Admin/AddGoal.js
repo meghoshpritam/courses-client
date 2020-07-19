@@ -159,34 +159,30 @@ export default () => {
       <Grid container spacing={1}>
         <Grid item xs={12}>
           <Typography component="h1" variant="h4" align="center" color="textPrimary" gutterBottom>
-            Add Node
+            Add Goal
           </Typography>
         </Grid>
         <Grid item xs={12}>
           {success && (
             <Typography color="primary" align="center">
-              {state.id === '' ? 'Node added successfully :)' : 'Node updated successfully :)'}
+              {state.id === '' ? 'Goal added successfully :)' : 'Goal updated successfully :)'}
             </Typography>
           )}
           <form className={classes.form} noValidate={false} onSubmit={submitHandler}>
             <Grid container spacing={1}>
               <Grid item xs={12} sm={6}>
-                <FormControl variant="outlined" className={classes.formControl} error={error?.type}>
-                  <InputLabel id="type-label">Select Type</InputLabel>
-                  <Select
-                    labelId="type-label"
-                    id="type"
-                    value={state.type}
-                    required
-                    onChange={(event) => dispatch(setType(event.target.value))}
-                    fullWidth
-                    label="Select Type"
-                  >
-                    <MenuItem value="free">Free</MenuItem>
-                    <MenuItem value="paid">Paid</MenuItem>
-                  </Select>
-                  {error?.type && <FormHelperText>{error?.type}</FormHelperText>}
-                </FormControl>
+                <TextField
+                  id="price"
+                  label="Price"
+                  variant="outlined"
+                  required
+                  fullWidth
+                  value={state.name}
+                  onChange={(event) => dispatch(setName(event.target.value))}
+                  className={classes.formControl}
+                  error={error?.name}
+                  helperText={error?.name}
+                />
               </Grid>
               <Grid item xs={12} sm={6}>
                 <TextField
@@ -253,38 +249,7 @@ export default () => {
                   <FileUpload type="image" />
                 </Grid>
               </Collapse>
-              <Grid item xs={12} sm={6}>
-                <FormControl
-                  className={classes.formControl}
-                  variant="outlined"
-                  error={error?.markdown}
-                >
-                  <InputLabel htmlFor="markdown">Detail Description Link</InputLabel>
-                  <OutlinedInput
-                    id="markdown"
-                    value={state.markdown}
-                    onChange={(event) => dispatch(setMarkdown(event.target.value))}
-                    endAdornment={
-                      // eslint-disable-next-line react/jsx-wrap-multilines
-                      <InputAdornment position="end">
-                        <IconButton
-                          aria-label="toggle video upload visibility"
-                          onClick={() => {
-                            window.open('/editor', '_blank');
-                          }}
-                          onMouseDown={handleMouseDownPassword}
-                          edge="end"
-                        >
-                          <LaunchIcon />
-                        </IconButton>
-                      </InputAdornment>
-                    }
-                    labelWidth={165}
-                  />
-                  {error?.markdown && <FormHelperText>{error?.markdown}</FormHelperText>}
-                </FormControl>
-              </Grid>
-              <Grid item xs={12} sm={6}>
+              <Grid item xs={12}>
                 <FormControl
                   className={classes.formControl}
                   variant="outlined"
@@ -328,6 +293,213 @@ export default () => {
                   <FileUpload type="video" />
                 </Grid>
               </Collapse>
+
+              <Grid item xs={12}>
+                {error?.resources && (
+                  <Typography color="error" align="center">
+                    {error?.resources}
+                  </Typography>
+                )}
+                <Grid container spacing={2} style={{ paddingLeft: '5', paddingRight: '5' }}>
+                  {state.resources.map((res) => (
+                    <Grid item xs={12} sm={6} key={res.id}>
+                      <Grid container spacing={2}>
+                        <Grid item xs={1}>
+                          <IconButton
+                            onClick={() => {
+                              for (let idx = 0; idx < state.resources.length; idx += 1) {
+                                if (res.id === state.resources[idx].id) {
+                                  setResource({
+                                    name: state.resources[idx].name,
+                                    uri: state.resources[idx].uri,
+                                  });
+                                  dispatch(deleteResource({ id: res.id }));
+                                  break;
+                                }
+                              }
+                            }}
+                          >
+                            <EditIcon />
+                          </IconButton>
+                        </Grid>
+                        <Grid
+                          item
+                          xs={10}
+                          style={{
+                            paddingTop: 20,
+                            paddingLeft: 20,
+                            wordWrap: 'break-word',
+                          }}
+                        >
+                          <Link href={res.uri}>{res.name}</Link>
+                        </Grid>
+                        <Grid item xs={1}>
+                          <IconButton onClick={() => dispatch(deleteResource({ id: res.id }))}>
+                            <DeleteIcon color="error" />
+                          </IconButton>
+                        </Grid>
+                      </Grid>
+                    </Grid>
+                  ))}
+                </Grid>
+              </Grid>
+              <Grid item xs={10} sm={5}>
+                <FormControl className={classes.formControl} variant="outlined">
+                  <InputLabel htmlFor="resource-link">Course ID</InputLabel>
+                  <OutlinedInput
+                    id="node-id"
+                    value={resource.uri}
+                    onChange={(e) => setResource({ ...resource, uri: e.target.value })}
+                    endAdornment={
+                      // eslint-disable-next-line react/jsx-wrap-multilines
+                      <InputAdornment position="end">
+                        <IconButton
+                          aria-label="toggle video upload visibility"
+                          onClick={() =>
+                            setContentUpload({
+                              ...contentUpload,
+                              resourceBtn: !contentUpload.resourceBtn,
+                            })
+                          }
+                          onMouseDown={handleMouseDownPassword}
+                          edge="end"
+                        >
+                          {contentUpload.resourceBtn ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+                        </IconButton>
+                      </InputAdornment>
+                    }
+                    labelWidth={105}
+                  />
+                </FormControl>
+              </Grid>
+              <Grid item xs={2} sm={1}>
+                <IconButton
+                  onClick={() => {
+                    dispatch(addResource({ name: resource.name, uri: resource.uri }));
+                    setResource({ name: '', uri: '' });
+                  }}
+                >
+                  <AddCircleIcon color="secondary" fontSize="large" />
+                </IconButton>
+              </Grid>
+              <Grid item xs={10} sm={5}>
+                <FormControl className={classes.formControl} variant="outlined">
+                  <InputLabel htmlFor="resource-link">Exam ID</InputLabel>
+                  <OutlinedInput
+                    id="node-id"
+                    value={resource.uri}
+                    onChange={(e) => setResource({ ...resource, uri: e.target.value })}
+                    endAdornment={
+                      // eslint-disable-next-line react/jsx-wrap-multilines
+                      <InputAdornment position="end">
+                        <IconButton
+                          aria-label="toggle video upload visibility"
+                          onClick={() =>
+                            setContentUpload({
+                              ...contentUpload,
+                              resourceBtn: !contentUpload.resourceBtn,
+                            })
+                          }
+                          onMouseDown={handleMouseDownPassword}
+                          edge="end"
+                        >
+                          {contentUpload.resourceBtn ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+                        </IconButton>
+                      </InputAdornment>
+                    }
+                    labelWidth={105}
+                  />
+                </FormControl>
+              </Grid>
+              <Grid item xs={2} sm={1}>
+                <IconButton
+                  onClick={() => {
+                    dispatch(addResource({ name: resource.name, uri: resource.uri }));
+                    setResource({ name: '', uri: '' });
+                  }}
+                >
+                  <AddCircleIcon color="secondary" fontSize="large" />
+                </IconButton>
+              </Grid>
+              <Grid item xs={10} sm={5}>
+                <FormControl className={classes.formControl} variant="outlined">
+                  <InputLabel htmlFor="resource-link">Project ID</InputLabel>
+                  <OutlinedInput
+                    id="node-id"
+                    value={resource.uri}
+                    onChange={(e) => setResource({ ...resource, uri: e.target.value })}
+                    endAdornment={
+                      // eslint-disable-next-line react/jsx-wrap-multilines
+                      <InputAdornment position="end">
+                        <IconButton
+                          aria-label="toggle video upload visibility"
+                          onClick={() =>
+                            setContentUpload({
+                              ...contentUpload,
+                              resourceBtn: !contentUpload.resourceBtn,
+                            })
+                          }
+                          onMouseDown={handleMouseDownPassword}
+                          edge="end"
+                        >
+                          {contentUpload.resourceBtn ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+                        </IconButton>
+                      </InputAdornment>
+                    }
+                    labelWidth={105}
+                  />
+                </FormControl>
+              </Grid>
+              <Grid item xs={2} sm={1}>
+                <IconButton
+                  onClick={() => {
+                    dispatch(addResource({ name: resource.name, uri: resource.uri }));
+                    setResource({ name: '', uri: '' });
+                  }}
+                >
+                  <AddCircleIcon color="secondary" fontSize="large" />
+                </IconButton>
+              </Grid>
+              <Grid item xs={10} sm={5}>
+                <FormControl className={classes.formControl} variant="outlined">
+                  <InputLabel htmlFor="resource-link">Assignment ID</InputLabel>
+                  <OutlinedInput
+                    id="node-id"
+                    value={resource.uri}
+                    onChange={(e) => setResource({ ...resource, uri: e.target.value })}
+                    endAdornment={
+                      // eslint-disable-next-line react/jsx-wrap-multilines
+                      <InputAdornment position="end">
+                        <IconButton
+                          aria-label="toggle video upload visibility"
+                          onClick={() =>
+                            setContentUpload({
+                              ...contentUpload,
+                              resourceBtn: !contentUpload.resourceBtn,
+                            })
+                          }
+                          onMouseDown={handleMouseDownPassword}
+                          edge="end"
+                        >
+                          {contentUpload.resourceBtn ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+                        </IconButton>
+                      </InputAdornment>
+                    }
+                    labelWidth={105}
+                  />
+                </FormControl>
+              </Grid>
+              <Grid item xs={2} sm={1}>
+                <IconButton
+                  onClick={() => {
+                    dispatch(addResource({ name: resource.name, uri: resource.uri }));
+                    setResource({ name: '', uri: '' });
+                  }}
+                >
+                  <AddCircleIcon color="secondary" fontSize="large" />
+                </IconButton>
+              </Grid>
+
               <Grid item xs={12}>
                 {error?.resources && (
                   <Typography color="error" align="center">
@@ -436,71 +608,123 @@ export default () => {
                   <FileUpload type="any file" />
                 </Grid>
               </Collapse>
-              <Grid item xs={12} sm={6}>
-                <FormControl className={classes.formControl} variant="outlined" error={error?.quiz}>
-                  <InputLabel htmlFor="quiz">Quiz Link</InputLabel>
+
+              <Grid item xs={10} sm={5}>
+                <FormControl className={classes.formControl} variant="outlined">
+                  <InputLabel htmlFor="resource-link">We will cover</InputLabel>
                   <OutlinedInput
-                    id="quiz"
-                    value={state.quiz}
-                    onChange={(event) => dispatch(setQuiz(event.target.value))}
+                    id="resource-link"
+                    value={resource.uri}
+                    onChange={(e) => setResource({ ...resource, uri: e.target.value })}
                     endAdornment={
                       // eslint-disable-next-line react/jsx-wrap-multilines
                       <InputAdornment position="end">
                         <IconButton
                           aria-label="toggle video upload visibility"
-                          onClick={() => {
-                            window.open('https://forms.google.com', '_blank');
-                          }}
+                          onClick={() =>
+                            setContentUpload({
+                              ...contentUpload,
+                              resourceBtn: !contentUpload.resourceBtn,
+                            })
+                          }
                           onMouseDown={handleMouseDownPassword}
                           edge="end"
                         >
-                          <LaunchIcon />
+                          {contentUpload.resourceBtn ? <ExpandLessIcon /> : <ExpandMoreIcon />}
                         </IconButton>
                       </InputAdornment>
                     }
-                    labelWidth={70}
+                    labelWidth={105}
                   />
-                  {error?.quiz && <FormHelperText>{error?.quiz}</FormHelperText>}
                 </FormControl>
               </Grid>
-              <Grid item xs={12} sm={6}>
-                <FormControl className={classes.formControl} variant="outlined" error={error?.exam}>
-                  <InputLabel htmlFor="exam">Exam Link</InputLabel>
+              <Grid item xs={2} sm={1}>
+                <IconButton
+                  onClick={() => {
+                    dispatch(addResource({ name: resource.name, uri: resource.uri }));
+                    setResource({ name: '', uri: '' });
+                  }}
+                >
+                  <AddCircleIcon color="secondary" fontSize="large" />
+                </IconButton>
+              </Grid>
+              <Grid item xs={10} sm={5}>
+                <FormControl className={classes.formControl} variant="outlined">
+                  <InputLabel htmlFor="resource-link">Requirments</InputLabel>
                   <OutlinedInput
-                    id="exam"
-                    value={state.exam}
-                    onChange={(event) => dispatch(setExam(event.target.value))}
+                    id="resource-link"
+                    value={resource.uri}
+                    onChange={(e) => setResource({ ...resource, uri: e.target.value })}
                     endAdornment={
                       // eslint-disable-next-line react/jsx-wrap-multilines
                       <InputAdornment position="end">
                         <IconButton
                           aria-label="toggle video upload visibility"
-                          onClick={() => {
-                            window.open('https://forms.google.com', '_blank');
-                          }}
+                          onClick={() =>
+                            setContentUpload({
+                              ...contentUpload,
+                              resourceBtn: !contentUpload.resourceBtn,
+                            })
+                          }
                           onMouseDown={handleMouseDownPassword}
                           edge="end"
                         >
-                          <LaunchIcon />
+                          {contentUpload.resourceBtn ? <ExpandLessIcon /> : <ExpandMoreIcon />}
                         </IconButton>
                       </InputAdornment>
                     }
-                    labelWidth={80}
+                    labelWidth={105}
                   />
-                  {error?.exam && <FormHelperText>{error?.exam}</FormHelperText>}
                 </FormControl>
               </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  id="assignment"
-                  label="Assignment Link"
-                  variant="outlined"
-                  value={state.assignment}
-                  onChange={(event) => dispatch(setAssignment(event.target.value))}
-                  className={classes.formControl}
-                  error={error?.assignment}
-                  helperText={error?.assignment}
-                />
+              <Grid item xs={2} sm={1}>
+                <IconButton
+                  onClick={() => {
+                    dispatch(addResource({ name: resource.name, uri: resource.uri }));
+                    setResource({ name: '', uri: '' });
+                  }}
+                >
+                  <AddCircleIcon color="secondary" fontSize="large" />
+                </IconButton>
+              </Grid>
+              <Grid item xs={10} sm={5}>
+                <FormControl className={classes.formControl} variant="outlined">
+                  <InputLabel htmlFor="resource-link">Goals for</InputLabel>
+                  <OutlinedInput
+                    id="resource-link"
+                    value={resource.uri}
+                    onChange={(e) => setResource({ ...resource, uri: e.target.value })}
+                    endAdornment={
+                      // eslint-disable-next-line react/jsx-wrap-multilines
+                      <InputAdornment position="end">
+                        <IconButton
+                          aria-label="toggle video upload visibility"
+                          onClick={() =>
+                            setContentUpload({
+                              ...contentUpload,
+                              resourceBtn: !contentUpload.resourceBtn,
+                            })
+                          }
+                          onMouseDown={handleMouseDownPassword}
+                          edge="end"
+                        >
+                          {contentUpload.resourceBtn ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+                        </IconButton>
+                      </InputAdornment>
+                    }
+                    labelWidth={105}
+                  />
+                </FormControl>
+              </Grid>
+              <Grid item xs={2} sm={1}>
+                <IconButton
+                  onClick={() => {
+                    dispatch(addResource({ name: resource.name, uri: resource.uri }));
+                    setResource({ name: '', uri: '' });
+                  }}
+                >
+                  <AddCircleIcon color="secondary" fontSize="large" />
+                </IconButton>
               </Grid>
               <Grid item xs={12} sm={6}>
                 <Button
@@ -510,7 +734,7 @@ export default () => {
                   className={classes.submit}
                   fullWidth
                 >
-                  {state.id === '' ? 'Add a new Node' : 'Update the node'}
+                  {state.id === '' ? 'Add a new Goal' : 'Update the Goal'}
                 </Button>
               </Grid>
             </Grid>

@@ -35,13 +35,14 @@ export const nodesSlice = createSlice({
       state.nodes.push(action.payload.node);
     },
     deleteNode: (state, action) => {
-      state.noes = [...state.noes.filter((node) => node._id !== action.payload.id)];
+      state.nodes = [...state.nodes.filter((node) => node._id !== action.payload.id)];
     },
     updateNode: (state, action) => {
       state.nodes = [
-        ...state.nodes.map((node) =>
-          node._id === action.payload.node._id ? action.payload.node : node
-        ),
+        ...state.nodes.map((node) => {
+          console.log(node._id, action.payload.node._id, node._id === action.payload.node._id);
+          return node._id === action.payload.node._id ? action.payload.node : node;
+        }),
       ];
     },
   },

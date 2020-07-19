@@ -113,7 +113,7 @@ export const useDelete = () => {
     dispatch(setLoading());
     try {
       const res = await axios.delete(url, { ...config, params });
-      setResponse(res.data);
+      setResponse({ msg: 'deleted' });
       setErr(null);
       dispatch(setSuccess());
     } catch (error) {
@@ -142,6 +142,7 @@ export const usePut = () => {
     dispatch(setLoading());
     try {
       const res = await axios.put(url, data, config);
+      console.log('put res', res);
       setResponse(res.data);
       setErr(null);
       dispatch(setSuccess());

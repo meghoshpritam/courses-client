@@ -198,6 +198,16 @@ export default function MenuAppBar() {
                   </ListItemIcon>
                   <ListItemText primary="Admin Panel" />
                 </ListItem>
+                <ListItem
+                  button
+                  onClick={() => history.push('/editor')}
+                  selected={location.pathname === '/editor'}
+                >
+                  <ListItemIcon>
+                    <DashboardIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="Editor" />
+                </ListItem>
               </>
             )}
             <Divider />
