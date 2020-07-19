@@ -1,22 +1,26 @@
 {
   "files": {
-    "main.css": "/courses-client/static/css/main.61277a23.chunk.css",
-    "main.js": "/courses-client/static/js/main.c04490c6.chunk.js",
-    "main.js.map": "/courses-client/static/js/main.c04490c6.chunk.js.map",
+    "main.css": "/courses-client/static/css/main.d4490262.chunk.css",
+    "main.js": "/courses-client/static/js/main.ad388046.chunk.js",
+    "main.js.map": "/courses-client/static/js/main.ad388046.chunk.js.map",
     "runtime-main.js": "/courses-client/static/js/runtime-main.5e1e08b0.js",
     "runtime-main.js.map": "/courses-client/static/js/runtime-main.5e1e08b0.js.map",
-    "static/js/2.b0d99d95.chunk.js": "/courses-client/static/js/2.b0d99d95.chunk.js",
-    "static/js/2.b0d99d95.chunk.js.map": "/courses-client/static/js/2.b0d99d95.chunk.js.map",
+    "static/css/2.cfae08ef.chunk.css": "/courses-client/static/css/2.cfae08ef.chunk.css",
+    "static/js/2.17f3a259.chunk.js": "/courses-client/static/js/2.17f3a259.chunk.js",
+    "static/js/2.17f3a259.chunk.js.map": "/courses-client/static/js/2.17f3a259.chunk.js.map",
     "index.html": "/courses-client/index.html",
-    "precache-manifest.783d4ff8f993c337a84fdd45aef5ad33.js": "/courses-client/precache-manifest.783d4ff8f993c337a84fdd45aef5ad33.js",
+    "precache-manifest.6db0160842f28b9f424f738a3291a6f1.js": "/courses-client/precache-manifest.6db0160842f28b9f424f738a3291a6f1.js",
     "service-worker.js": "/courses-client/service-worker.js",
-    "static/css/main.61277a23.chunk.css.map": "/courses-client/static/css/main.61277a23.chunk.css.map",
-    "static/js/2.b0d99d95.chunk.js.LICENSE.txt": "/courses-client/static/js/2.b0d99d95.chunk.js.LICENSE.txt"
+    "static/css/2.cfae08ef.chunk.css.map": "/courses-client/static/css/2.cfae08ef.chunk.css.map",
+    "static/css/main.d4490262.chunk.css.map": "/courses-client/static/css/main.d4490262.chunk.css.map",
+    "static/js/2.17f3a259.chunk.js.LICENSE.txt": "/courses-client/static/js/2.17f3a259.chunk.js.LICENSE.txt",
+    "static/media/image.svg": "/courses-client/static/media/image.1b61dc31.svg"
   },
   "entrypoints": [
     "static/js/runtime-main.5e1e08b0.js",
-    "static/js/2.b0d99d95.chunk.js",
-    "static/css/main.61277a23.chunk.css",
-    "static/js/main.c04490c6.chunk.js"
+    "static/css/2.cfae08ef.chunk.css",
+    "static/js/2.17f3a259.chunk.js",
+    "static/css/main.d4490262.chunk.css",
+    "static/js/main.ad388046.chunk.js"
   ]
 }
