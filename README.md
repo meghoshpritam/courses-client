@@ -4,7 +4,7 @@
 
 An educational site with React.js
 
-## Check the site [demo](http://meghoshpritam.github.io/courses-client)
+## Check the site [demo](http://meghoshpritam.github.io/courses-client) ⚠ *not work properly backend not intregrted* ⚠
 
 ## Includes
 
