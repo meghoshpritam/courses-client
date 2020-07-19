@@ -121,7 +121,12 @@ const CourseCard = ({
                   </Button>
                 </>
               ) : (
-                <Button size="small" color="primary" variant="outlined" onClick={payment}>
+                <Button
+                  size="small"
+                  color="primary"
+                  variant="outlined"
+                  onClick={() => payment({ type, id })}
+                >
                   Enroll
                 </Button>
               )}

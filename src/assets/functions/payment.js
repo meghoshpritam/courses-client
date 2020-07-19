@@ -1,11 +1,12 @@
 import axios from 'axios';
 
-export default async () => {
+export default async ({ type, id }) => {
   let res;
   try {
+    const typeName = `${type}Id`;
     res = await axios.post(
       '/student/create-order',
-      { courseId: '5ef339d78579e7c375fbfb64' },
+      { [typeName]: id },
       {
         headers: {
           authorization: localStorage.getItem('accessToken'),

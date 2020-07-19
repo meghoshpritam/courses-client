@@ -11,6 +11,7 @@ import AddIcon from '@material-ui/icons/Add';
 import RemoveIcon from '@material-ui/icons/Remove';
 import Link from '@material-ui/core/Link';
 import Collapse from '@material-ui/core/Collapse';
+import ReactPlayer from 'react-player';
 import ContentListItem from '../components/ContentListItem';
 import useGet from '../hooks/useGet';
 import CircleSpring from '../components/CircleSpring';
@@ -18,7 +19,7 @@ import { toDate } from '../assets/functions/util';
 import Rating from '../components/Rating';
 
 const useStyles = makeStyles((theme) => ({
-  img: { height: '40Vh', width: '100%' },
+  img: { width: '100%' },
   starIcon: {
     fontSize: 18,
     color: '#ffc400',
@@ -80,6 +81,96 @@ export default () => {
     console.log('res...', res);
   }, [res]);
 
+  const lists = [
+    {
+      title: 'Introduction',
+      numberOfContent: 4,
+      totalTime: '01:45:49',
+      contents: [
+        {
+          name: 'Recap of C',
+          description: 'Recap of C lecture 01',
+          type: 'video',
+          time: '17:59',
+          video:
+            'https://www.youtube.com/watch?v=KG4hjVDw-p8&list=PLmp4ylk-B4KrM9uOEdvPIVFUkU3jNc6D2&index=2',
+        },
+        {
+          name: 'Recap of C',
+          description: 'Recap of C lecture 02',
+          type: 'video',
+          time: '30:05',
+          video:
+            'https://www.youtube.com/watch?v=KG4hjVDw-p8&list=PLmp4ylk-B4KrM9uOEdvPIVFUkU3jNc6D2&index=2',
+        },
+        {
+          name: 'Recap of C',
+          description: 'Recap of C lecture 03',
+          type: 'video',
+          time: '29:49',
+          video:
+            'https://www.youtube.com/watch?v=KG4hjVDw-p8&list=PLmp4ylk-B4KrM9uOEdvPIVFUkU3jNc6D2&index=2',
+        },
+        {
+          name: 'Programs with IO and Loop',
+          description: 'Loops (for, while, do-while) and I/O in C++',
+          type: 'video',
+          time: '27:56',
+          video:
+            'https://www.youtube.com/watch?v=KG4hjVDw-p8&list=PLmp4ylk-B4KrM9uOEdvPIVFUkU3jNc6D2&index=2',
+        },
+      ],
+    },
+    {
+      title: 'Structure of C++',
+      numberOfContent: 3,
+      totalTime: '01:12:05',
+      contents: [],
+    },
+    {
+      title: 'Functions in C++',
+      numberOfContent: 6,
+      totalTime: '02:14:40',
+      contents: [],
+    },
+    {
+      title: 'OOP - Classes and Objects',
+      numberOfContent: 7,
+      totalTime: '04:24:19',
+      contents: [],
+    },
+    {
+      title: 'operator Overloading',
+      numberOfContent: 6,
+      totalTime: '02:59:20',
+      contents: [],
+    },
+    {
+      title: 'Inheritance',
+      numberOfContent: 4,
+      totalTime: '03:12:30',
+      contents: [],
+    },
+    {
+      title: 'Polymorphism',
+      numberOfContent: 6,
+      totalTime: '04:20:05',
+      contents: [],
+    },
+    {
+      title: 'Smart pointer',
+      numberOfContent: 3,
+      totalTime: '01:02:06',
+      contents: [],
+    },
+    {
+      title: 'Exception Handling',
+      numberOfContent: 8,
+      totalTime: '03:48:24',
+      contents: [],
+    },
+  ];
+
   return (
     <Container
       maxWidth="md"
@@ -89,7 +180,11 @@ export default () => {
         <Grid container>
           {/* TODO: change the name of the video or image and show the selected one */}
           <Grid item xs={12}>
-            <img src="https://source.unsplash.com/random" alt="img..." className={classes.img} />
+            {res.course.video ? (
+              <ReactPlayer url="https://www.youtube.com/watch?v=KG4hjVDw-p8&list=PLmp4ylk-B4KrM9uOEdvPIVFUkU3jNc6D2&index=2" />
+            ) : (
+              <img src={res.course.img} alt="img..." className={classes.img} />
+            )}
           </Grid>
           <Grid item xs={12}>
             <Typography component="h1" variant="h5" className={classes.heading}>
@@ -112,12 +207,12 @@ export default () => {
               Last Updated <strong>{toDate(res?.course?.updated)}</strong>
             </Grid>
             <Grid item>
-              <Rating rating={3.9} totalRating={2569} fontSize={19} />{' '}
+              <Rating rating={0} totalRating={0} fontSize={19} />
             </Grid>
             {/* TODO: fetch the views from youtube api if video available */}
             <Grid item>
               <span className={classes.secondaryText}>
-                <strong>569</strong> views
+                <strong>9</strong> views
               </span>
             </Grid>
           </Grid>
@@ -152,7 +247,57 @@ export default () => {
                   Course content
                 </Typography>
               </Grid>
-              {arr.map((a) => (
+              {lists.map((a, idx) => (
+                <Grid item xs={12} key={a.title} className={classes.list}>
+                  <Grid container justify="space-between">
+                    <Grid item onClick={() => handleExpandClick(idx)}>
+                      <Grid container spacing={1}>
+                        <Grid item>
+                          <InboxIcon color="secondary" />
+                        </Grid>
+                        <Grid item>{a.title}</Grid>
+                      </Grid>
+                    </Grid>
+                    <Grid item>
+                      <strong>{a.totalTime}</strong>
+                    </Grid>
+                  </Grid>
+                  <Grid item onClick={() => handleExpandClick(idx)}>
+                    <Grid container justify="space-between">
+                      <Grid item>
+                        <Grid container spacing={1}>
+                          <Grid item>
+                            {expandContent[a] ? (
+                              <RemoveIcon color="secondary" />
+                            ) : (
+                              <AddIcon color="primary" />
+                            )}
+                          </Grid>
+                          <Grid item>
+                            <span className={classes.secondaryText}>view content</span>
+                          </Grid>
+                        </Grid>
+                      </Grid>
+                      <Grid item>
+                        <strong>{a.numberOfContent}</strong> contain
+                      </Grid>
+                    </Grid>
+                  </Grid>
+                  <Collapse in={expandContent[idx]} timeout="auto" unmountOnExit>
+                    {a?.contents.map((content) => (
+                      <Grid item key={content?.title} className={classes.videoList}>
+                        <ContentListItem
+                          title={content.name}
+                          description={content.description}
+                          type={content.type}
+                          time={content.time}
+                        />
+                      </Grid>
+                    ))}
+                  </Collapse>
+                </Grid>
+              ))}
+              {/* {arr.map((a) => (
                 <Grid item xs={12} key={a} className={classes.list}>
                   <Grid container justify="space-between">
                     <Grid item onClick={() => handleExpandClick(a)}>
@@ -198,7 +343,7 @@ export default () => {
                     ))}
                   </Collapse>
                 </Grid>
-              ))}
+              ))} */}
             </Grid>
           </Grid>
           {res?.course?.requirements?.length !== 0 && (

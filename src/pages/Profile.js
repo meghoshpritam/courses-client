@@ -46,15 +46,18 @@ export default () => {
         {res && (
           <Grid container className={classes.details}>
             <Grid item xs={12} sm={5}>
+              {console.log('res', res)}
               {res.avatar ? (
                 <img src={res.avatar} alt="profile_image" className={classes.img} />
               ) : (
                 <div className={classes.customAvatar}>
-                  <div>{`${localStorage.getItem('name')[0]}${
-                    localStorage.getItem('name').split(' ')[
-                      localStorage.getItem('name').split(' ').length - 1
-                    ][0]
-                  }`}</div>
+                  <div>
+                    {`${localStorage.getItem('name')[0]}${
+                      localStorage.getItem('name').split(' ')[
+                        localStorage.getItem('name').split(' ').length - 1
+                      ][0]
+                    }`}
+                  </div>
                 </div>
               )}
             </Grid>
@@ -88,7 +91,7 @@ export default () => {
           </Typography>
         )}
       </Container>
-      {res && <Section title="My Courses" cards={[1, 2, 3, 4, 5, 6, 7, 8]} />}
+      {res && <Section title="My Courses" type="course" />}
     </Container>
   );
 };
