@@ -57,8 +57,8 @@ const Section = ({ title, data, viewAll, type }) => {
               description={d.description}
               lastUpdated={toDate(d.updated)}
               creator={d.creator.name}
-              rating={Number(d.totalRating)}
-              totalRating={Number(d.totalUser)}
+              rating={Number(d.totalRating) || 0}
+              totalRating={Number(d.totalUser) || 0}
               price={Number(d.price)}
               img={d.img}
               video={d.video}
