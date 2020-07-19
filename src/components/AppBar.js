@@ -21,6 +21,7 @@ import ClassIcon from '@material-ui/icons/Class';
 import AssignmentIcon from '@material-ui/icons/Assignment';
 import CategoryIcon from '@material-ui/icons/Category';
 import HelpIcon from '@material-ui/icons/Help';
+import EditIcon from '@material-ui/icons/Edit';
 import DashboardIcon from '@material-ui/icons/Dashboard';
 import { Divider, Button } from '@material-ui/core';
 import BugReportIcon from '@material-ui/icons/BugReport';
@@ -204,7 +205,7 @@ export default function MenuAppBar() {
                   selected={location.pathname === '/editor'}
                 >
                   <ListItemIcon>
-                    <DashboardIcon />
+                    <EditIcon />
                   </ListItemIcon>
                   <ListItemText primary="Editor" />
                 </ListItem>
