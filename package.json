@@ -14,7 +14,7 @@
     "clsx": "^1.1.1",
     "markdown-to-jsx": "^6.11.4",
     "material-ui-dropzone": "^3.3.0",
-    "node-sass": "^4.14.1",
+    "node-sass": "^7.0.0",
     "npm-check-updates": "^7.0.1",
     "prop-types": "^15.7.2",
     "react": "^16.13.1",
